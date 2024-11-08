@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Update Business</title>
+    <meta charset="UTF-8">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" />
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" th:href="@{/webjars/font-awesome/6.5.2/css/all.min.css}" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@400&display=swap" rel="stylesheet">
+
+    <style>
+        /* Background Settings */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-image: url('/assets/farm.jpg');
+            background-size: cover;
+            background-position: center;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            margin: 0;
+        }
+
+        /* Form Container */
+        .form-container {
+            background-color: rgba(255, 255, 255, 0.95); /* Slight transparency */
+            padding: 50px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Title Styling */
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.7em;
+            font-weight: 700;
+            color: #000;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+        }
+
+        /* Label and Input Styling */
+        .form-group label {
+            font-weight: 600;
+            color: #333;
+            font-size: 1.1em;
+            text-align: left;
+            display: block;
+        }
+
+        .form-control {
+            border-radius: 5px;
+            padding: 12px;
+            border: 1px solid #ccc;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: #333;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Dropdown Styling */
+        select.form-control {
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        /* Submit Button Styling */
+        .btn-submit {
+            background-color: #000;
+            color: #fff;
+            width: 100%;
+            padding: 12px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin-top: 20px;
+        }
+
+        .btn-submit:hover {
+            background-color: #333;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Return Button Styling */
+        .button-container {
+            margin-top: 20px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .return-button {
+            background-color: #000;
+            color: #fff;
+            font-weight: bold;
+            padding: 12px 30px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Playfair Display', serif;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            display: inline-block;
+            margin-top: 40px;
+        }
+
+        .return-button:hover {
+            background-color: #333;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .form-container {
+                padding: 30px;
+            }
+        }
+        /* Tranziția de fade-out */
+        .fade-out {
+            animation: fadeOutAnimation 0.5s forwards;
+        }
+
+        /* Tranziția de fade-in */
+        .fade-in {
+            animation: fadeInAnimation 0.5s forwards;
+        }
+
+        @keyframes fadeOutAnimation {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
+        @keyframes fadeInAnimation {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+    <script>
+        // Adaugă efectul de fade-in când pagina este încărcată
+        document.addEventListener("DOMContentLoaded", function() {
+            document.body.classList.add("fade-in");
+        });
+
+        // Adaugă efectul de fade-out când se face click pe un link
+        document.querySelectorAll("a").forEach(link => {
+            link.addEventListener("click", function(event) {
+                // Prevent default pentru a putea adăuga animația
+                event.preventDefault();
+
+                // Adaugă clasa fade-out pentru efectul de ieșire
+                document.body.classList.add("fade-out");
+
+                // Navighează la link după ce animația s-a terminat
+                setTimeout(() => {
+                    window.location.href = this.href;
+                }, 1000); // 500ms, cât durează animația fade-out
+            });
+        });
+    </script>
+
+</head>
+<body>
+
+<div class="form-container">
+    <h1>Update Business</h1>
+    <form th:action="@{/businesses/update/{id}(id=${business.id})}" method="post">
+        <div class="form-group mb-3">
+            <label for="businessId">Business ID</label>
+            <input type="text" id="businessId" name="businessId" class="form-control" th:value="${business.businessId}" required />
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="name">Business Name</label>
+            <input type="text" id="name" name="name" class="form-control" th:value="${business.name}" required />
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="description">Description</label>
+            <textarea id="description" name="description" class="form-control" rows="3" th:text="${business.description}" required></textarea>
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="keyword">Keyword</label>
+            <select id="keyword" name="keyword" class="form-control" required>
+                <option th:each="option : ${keywords}"
+                        th:value="${option}"
+                        th:text="${option}"
+                        th:selected="${option == business.keyword}"></option>
+            </select>
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="pageLink">Facebook Page Link</label>
+            <input type="url" id="pageLink" name="pageLink" class="form-control" th:value="${business.pageLink}" placeholder="https://" pattern="https://.*" required />
+        </div>
+
+        <button type="submit" class="btn-submit">Update Business</button>
+    </form>
+</div>
+
+<!-- Return to Homepage Button -->
+<div class="button-container">
+    <a href="/welcome" class="return-button">Return to homepage</a>
+</div>
+
+</body>
+</html>

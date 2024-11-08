@@ -1,0 +1,91 @@
+-- Insert roles
+INSERT INTO role (id, name) VALUES (1, 'VIEWER');
+INSERT INTO role (id, name) VALUES (2, 'EDITOR');
+INSERT INTO role (id, name) VALUES (3, 'ADMIN');
+
+-- Insert businesses
+INSERT INTO businesses (business_id, name, keyword, description, page_link) VALUES
+('BUS12395', 'Bean Kingdom', 'legumi', 'Specialist in organic beans and legumes.', 'https://www.facebook.com/BeanKingdom'),
+('BUS12396', 'The Olive House', 'olio', 'Olive oil directly from family-owned farms.', 'https://www.facebook.com/TheOliveHouse'),
+('BUS12397', 'Cheese Delight', 'formaggio', 'Delightful artisan cheese selection.', 'https://www.facebook.com/CheeseDelight'),
+('BUS12398', 'Wine Treasures', 'vino', 'Collector of rare Italian wines.', 'https://www.facebook.com/WineTreasures'),
+('BUS12399', 'Artisan Wonders', 'prodotti artigianali', 'Handmade artisanal crafts.', 'https://www.facebook.com/ArtisanWonders'),
+('BUS12400', 'Fresh & Fruity', 'frutta', 'Premium selection of organic fruits.', 'https://www.facebook.com/FreshAndFruity'),
+('BUS12401', 'Jam Haven', 'conserve', 'Homegrown fruits turned into jams.', 'https://www.facebook.com/JamHaven'),
+('BUS12402', 'The Spice Rack', 'spezie', 'Rare spices for the gourmet kitchen.', 'https://www.facebook.com/TheSpiceRack'),
+('BUS12403', 'Pure Olive', 'olio', 'Olive oil crafted with care.', 'https://www.facebook.com/PureOlive'),
+('BUS12404', 'Cheese Villa', 'formaggio', 'Traditional and organic cheese makers.', 'https://www.facebook.com/CheeseVilla'),
+('BUS12405', 'Vinoteca', 'vino', 'Curator of classic and vintage wines.', 'https://www.facebook.com/Vinoteca'),
+('BUS12406', 'Crafted Elegance', 'prodotti artigianali', 'Elegant handcrafted products.', 'https://www.facebook.com/CraftedElegance'),
+('BUS12407', 'Fruit Orchard Co.', 'frutta', 'Provider of fresh, seasonal fruits.', 'https://www.facebook.com/FruitOrchardCo'),
+('BUS12408', 'Berry Bliss', 'conserve', 'Berries turned into delicious preserves.', 'https://www.facebook.com/BerryBliss'),
+('BUS12409', 'Nutri Beans', 'legumi', 'Nutrient-rich legumes distributor.', 'https://www.facebook.com/NutriBeans'),
+('BUS12410', 'World of Spices', 'spezie', 'Spices from across the globe.', 'https://www.facebook.com/WorldOfSpices'),
+('BUS12411', 'Gold Olive', 'olio', 'Golden quality in every drop of oil.', 'https://www.facebook.com/GoldOlive'),
+('BUS12412', 'Cheese Corner', 'formaggio', 'Wide range of Italian cheeses.', 'https://www.facebook.com/CheeseCorner'),
+('BUS12413', 'Red Grapes', 'vino', 'Red wine specialists from Italy.', 'https://www.facebook.com/RedGrapes'),
+('BUS12414', 'Artisan Essence', 'prodotti artigianali', 'Crafting excellence in handmade goods.', 'https://www.facebook.com/ArtisanEssence'),
+('BUS12415', 'Sunny Fruits', 'frutta', 'Fresh fruits for every season.', 'https://www.facebook.com/SunnyFruits'),
+('BUS12416', 'Jam Jar', 'conserve', 'Homemade jams with natural ingredients.', 'https://www.facebook.com/JamJar'),
+('BUS12417', 'Green Lentils', 'legumi', 'Organic green lentils and more.', 'https://www.facebook.com/GreenLentils'),
+('BUS12418', 'Spice Masters', 'spezie', 'Masterful selection of global spices.', 'https://www.facebook.com/SpiceMasters'),
+('BUS12419', 'Extra Virgin Oil', 'olio', 'Best quality extra virgin olive oil.', 'https://www.facebook.com/ExtraVirginOil'),
+('BUS12420', 'Cheese Delight', 'formaggio', 'Gourmet cheese from local producers.', 'https://www.facebook.com/CheeseDelight'),
+('BUS12421', 'Wine Cellars', 'vino', 'Fine Italian wine cellars.', 'https://www.facebook.com/WineCellars'),
+('BUS12422', 'Handmade Heritage', 'prodotti artigianali', 'Traditional handmade artisan goods.', 'https://www.facebook.com/HandmadeHeritage'),
+('BUS12423', 'Citrus Farm', 'frutta', 'Supplier of fresh citrus fruits.', 'https://www.facebook.com/CitrusFarm'),
+('BUS12424', 'Preserve Love', 'conserve', 'Homemade preserves with passion.', 'https://www.facebook.com/PreserveLove'),
+('BUS12425', 'Chickpea King', 'legumi', 'Supplier of organic chickpeas.', 'https://www.facebook.com/ChickpeaKing'),
+('BUS12426', 'Herb Bliss', 'spezie', 'Blissful blends of herbs and spices.', 'https://www.facebook.com/HerbBliss'),
+('BUS12427', 'Olive Oil Creations', 'olio', 'Innovative olive oil blends.', 'https://www.facebook.com/OliveOilCreations'),
+('BUS12428', 'Fromaggio Fresco', 'formaggio', 'Fresh Italian cheese specialists.', 'https://www.facebook.com/FromaggioFresco'),
+('BUS12429', 'Vino Classico', 'vino', 'Classic Italian wines for every taste.', 'https://www.facebook.com/VinoClassico'),
+('BUS12430', 'Crafted with Care', 'prodotti artigianali', 'Handcrafted items with attention to detail.', 'https://www.facebook.com/CraftedWithCare'),
+('BUS12431', 'Berry Fresh', 'frutta', 'Fresh berries from local farms.', 'https://www.facebook.com/BerryFresh'),
+('BUS12432', 'Gourmet Preserves', 'conserve', 'Premium preserves and jams.', 'https://www.facebook.com/GourmetPreserves'),
+('BUS12433', 'Harvest Beans', 'legumi', 'Supplier of fresh, high-quality beans.', 'https://www.facebook.com/HarvestBeans'),
+('BUS12434', 'World Spices', 'spezie', 'World-class spices at your doorstep.', 'https://www.facebook.com/WorldSpices'),
+('BUS12435', 'Olive Grove', 'olio', 'Olive oil straight from the grove.', 'https://www.facebook.com/OliveGrove'),
+('BUS12436', 'Italian Cheese Hub', 'formaggio', 'Hub for Italian cheese enthusiasts.', 'https://www.facebook.com/ItalianCheeseHub'),
+('BUS12437', 'Grape Garden', 'vino', 'High-quality Italian wines.', 'https://www.facebook.com/GrapeGarden'),
+('BUS12438', 'Handcraft Heaven', 'prodotti artigianali', 'Artisan crafts from local creators.', 'https://www.facebook.com/HandcraftHeaven'),
+('BUS12439', 'Apple Orchard', 'frutta', 'Supplier of organic apples.', 'https://www.facebook.com/AppleOrchard'),
+('BUS12440', 'Homemade Jars', 'conserve', 'Preserves made from local fruits.', 'https://www.facebook.com/HomemadeJars'),
+('BUS12441', 'Nutty Legumes', 'legumi', 'Supplier of organic nuts and legumes.', 'https://www.facebook.com/NuttyLegumes'),
+('BUS12442', 'Spice Heritage', 'spezie', 'Heritage spices from around the globe.', 'https://www.facebook.com/SpiceHeritage'),
+('BUS12443', 'Oliva Nuova', 'olio', 'New and innovative olive oil blends.', 'https://www.facebook.com/OlivaNuova'),
+('BUS12444', 'Cheese Bliss', 'formaggio', 'Cheese for every taste.', 'https://www.facebook.com/CheeseBliss'),
+('BUS12445', 'The Vineyard', 'vino', 'Exclusive wines from Italian vineyards.', 'https://www.facebook.com/TheVineyard'),
+('BUS12446', 'Tradition Crafts', 'prodotti artigianali', 'Crafts steeped in tradition.', 'https://www.facebook.com/TraditionCrafts'),
+('BUS12447', 'Freshly Picked', 'frutta', 'Hand-picked fresh fruits.', 'https://www.facebook.com/FreshlyPicked'),
+('BUS12448', 'Jam & Jelly', 'conserve', 'Homemade jams and jellies.', 'https://www.facebook.com/JamAndJelly'),
+('BUS12449', 'Bean Delight', 'legumi', 'Premium beans for every dish.', 'https://www.facebook.com/BeanDelight'),
+('BUS12450', 'Spice Haven', 'spezie', 'A haven of aromatic spices.', 'https://www.facebook.com/SpiceHaven');
+
+-- Insert customers
+INSERT INTO customers (customer_id, name, email, phone) VALUES
+('CUS10001', 'John Doe', 'john.doe@example.com', '123-456-7890'),
+('CUS10002', 'Jane Smith', 'jane.smith@example.com', '234-567-8901'),
+('CUS10003', 'Alice Johnson', 'alice.johnson@example.com', '345-678-9012'),
+('CUS10004', 'Robert Brown', 'robert.brown@example.com', '456-789-0123'),
+('CUS10005', 'Emily Davis', 'emily.davis@example.com', '567-890-1234'),
+('CUS10006', 'Michael Wilson', 'michael.wilson@example.com', '678-901-2345'),
+('CUS10007', 'Jessica Taylor', 'jessica.taylor@example.com', '789-012-3456'),
+('CUS10008', 'Daniel Thomas', 'daniel.thomas@example.com', '890-123-4567'),
+('CUS10009', 'Sophia Lee', 'sophia.lee@example.com', '901-234-5678'),
+('CUS10010', 'James Martin', 'james.martin@example.com', '123-890-4567'),
+('CUS10011', 'Olivia Clark', 'olivia.clark@example.com', '234-901-5678'),
+('CUS10012', 'William Rodriguez', 'william.rodriguez@example.com', '345-012-6789'),
+('CUS10013', 'Ava Lewis', 'ava.lewis@example.com', '456-123-7890'),
+('CUS10014', 'Lucas Walker', 'lucas.walker@example.com', '567-234-8901'),
+('CUS10015', 'Mia Young', 'mia.young@example.com', '678-345-9012'),
+('CUS10016', 'Elijah Hall', 'elijah.hall@example.com', '789-456-0123'),
+('CUS10017', 'Charlotte Allen', 'charlotte.allen@example.com', '890-567-1234'),
+('CUS10018', 'Benjamin Scott', 'benjamin.scott@example.com', '901-678-2345'),
+('CUS10019', 'Amelia Wright', 'amelia.wright@example.com', '123-789-3456'),
+('CUS10020', 'Mason King', 'mason.king@example.com', '234-890-4567');
+-- Insert users
+INSERT INTO user (username, password, email, role_id) VALUES
+('viewerUser', '$2a$12$70Eu.EKWIN5Ko/riuA24EOQBz8ccfi7IzgGSXY4XFSGWSbyjP9A5S', 'viewer@example.com', 1), -- Password: viewer123
+('workerUser', '$2a$10$VHgTGmYfFZt8uoxIFBBxeuMtcYxRIUgkPEShOhjqw9DnyvBDn1oOS', 'worker@example.com', 2), -- Password: worker123
+('managerUser', '$2a$12$DLPFJkQLTipXtSi.RvpYxe50leTjXTWm/rVx2MkPC5rdTI1ybe9AS', 'manager@example.com', 3); -- Password: admin123

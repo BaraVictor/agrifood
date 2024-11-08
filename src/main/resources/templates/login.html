@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+                body {
+             background-image: url('/assets/farm.jpg'); /* Corectarea căii */
+             background-size: cover;
+             font-family: 'Arial', sans-serif;
+             display: flex;
+             justify-content: center;
+             align-items: center;
+             height: 100vh;
+             margin: 0;
+             color: white;
+             overflow: hidden;
+         }
+
+
+          .login-container {
+              background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+              padding: 3rem;
+              border-radius: 12px;
+              box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+              width: 100%;
+              max-width: 380px;
+              text-align: center;
+              animation: fadeIn 0.6s ease-out;
+          }
+
+          .login-container h1 {
+              margin-bottom: 1.5rem;
+              color: #333;
+              font-size: 2.5em;
+              font-weight: 600;
+              letter-spacing: 0.5px;
+          }
+
+          .login-container label {
+              display: block;
+              margin-bottom: 0.5rem;
+              font-weight: bold;
+              color: #555;
+          }
+
+          .login-container input {
+              width: 100%;
+              padding: 12px;
+              margin-bottom: 1rem;
+              border: 1px solid #ddd;
+              border-radius: 8px;
+              font-size: 16px;
+              background-color: #f7f7f7;
+              transition: border-color 0.3s ease;
+          }
+
+          .login-container input:focus {
+              border-color: #2575fc;
+              outline: none;
+          }
+
+          .login-container button {
+          background-color: #2575fc;
+          color: white;
+          border: none;
+          padding: 8px 16px; /* Micșorează padding-ul pentru a face butonul mai mic */
+          border-radius: 8px;
+          cursor: pointer;
+          font-size: 14px; /* Reducerea dimensiunii textului pentru a-l face mai mic */
+          transition: background-color 0.3s;
+          width: auto; /* Setează lățimea pe auto pentru a nu ocupa întreaga lățime */
+          margin: 0 auto; /* Centrează butonul */
+          display: block; /* Transformă butonul într-un element bloc pentru a-l centra */
+          }
+
+          .login-container button:hover {
+              background-color: #1a60b4;
+          }
+
+          .login-footer {
+              margin-top: 1rem;
+              font-size: 14px;
+              color: #888;
+          }
+
+          .login-footer a {
+              color: #2575fc;
+              text-decoration: none;
+              font-weight: bold;
+          }
+
+          .login-footer a:hover {
+              text-decoration: underline;
+          }
+
+          .error-message {
+              color: #e74c3c;
+              margin-bottom: 1rem;
+              font-size: 14px;
+          }
+
+          @keyframes fadeIn {
+              0% { opacity: 0; }
+              100% { opacity: 1; }
+          }
+
+          /* Responsive design adjustments */
+          @media (max-width: 480px) {
+              .login-container {
+                  padding: 2rem;
+              }
+          }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <h1>Login</h1>
+
+    <!-- Mesaj de eroare pentru autentificare eșuată -->
+    <div th:if="${param.error}" class="error-message">
+        Invalid username or password. Please try again.
+    </div>
+
+    <form th:action="@{/perform_login}" method="post">
+        <div>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required />
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required />
+        </div>
+        <div>
+            <button type="submit"><i class="fas fa-sign-in-alt"></i> Login</button>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>
