@@ -3,8 +3,8 @@
 package com.italy.agrifood.entity;
 
 import org.springframework.security.core.GrantedAuthority;
-
 import jakarta.persistence.*;
+import java.util.List;
 
 @Entity
 public class Role implements GrantedAuthority {
@@ -16,7 +16,10 @@ public class Role implements GrantedAuthority {
     @Column(nullable = false, unique = true)
     private String name;
 
-    // Getters and setters for id and name
+    @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
+    private List<User> users;
+
+    // Getters and setters for id, name, and users
 
     public Long getId() {
         return id;
@@ -32,6 +35,14 @@ public class Role implements GrantedAuthority {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 
     @Override

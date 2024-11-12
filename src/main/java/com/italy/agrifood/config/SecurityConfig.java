@@ -41,29 +41,30 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf
-                        .disable() // Temporar, pentru testare - dezactivare CSRF
-                )
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/welcome", "/error", "/login", "/register").permitAll() // Endpoints publice
-                        .requestMatchers("/businesses/view", "/customers/view").hasAnyAuthority("VIEWER", "EDITOR", "ADMIN") // Vizualizare
-                        .requestMatchers("/businesses/add", "/businesses/update/**", "/customers/add", "/customers/update/**").hasAnyAuthority("EDITOR", "ADMIN") // Adăugare și actualizare
-                        .requestMatchers("/businesses/delete/**", "/customers/delete/**").hasAuthority("ADMIN") // Ștergere doar pentru ADMIN
-                        .anyRequest().authenticated() // Toate celelalte requesturi necesită autentificare
-                )
-                .formLogin(formLogin -> formLogin
-                        .loginPage("/login") // Pagină de autentificare personalizată
-                        .loginProcessingUrl("/perform_login")
-                        .permitAll()
-                        .defaultSuccessUrl("/welcome", true)
-                        .failureUrl("/login?error=true")
-                )
-                .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/welcome?logout=true")
-                        .invalidateHttpSession(true)
-                        .deleteCookies("JSESSIONID")
-                );
+            .csrf(csrf -> csrf
+                .disable() // Temporar, pentru testare - dezactivare CSRF
+            )
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/welcome", "/error", "/login", "/register").permitAll() // Endpoints publice
+                .requestMatchers("/assets/**", "/css/**", "/js/**", "/images/**").permitAll() // Permite accesul la resursele statice
+                .requestMatchers("/businesses/view", "/customers/view").hasAnyAuthority("VIEWER", "EDITOR", "ADMIN") // Vizualizare
+                .requestMatchers("/businesses/add", "/businesses/update/**", "/customers/add", "/customers/update/**").hasAnyAuthority("EDITOR", "ADMIN") // Adăugare și actualizare
+                .requestMatchers("/businesses/delete/**", "/customers/delete/**").hasAuthority("ADMIN") // Ștergere doar pentru ADMIN
+                .anyRequest().authenticated() // Toate celelalte requesturi necesită autentificare
+            )
+            .formLogin(formLogin -> formLogin
+                .loginPage("/login") // Pagină de autentificare personalizată
+                .loginProcessingUrl("/perform_login")
+                .permitAll()
+                .defaultSuccessUrl("/welcome", true)
+                .failureUrl("/login?error=true")
+            )
+            .logout(logout -> logout
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/welcome?logout=true")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
+            );
 
         return http.build();
     }
