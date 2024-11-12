@@ -76,7 +76,6 @@ public class CustomerSearch {
 
             for (int i = 0; i < data.length(); i++) {
                 JSONObject user = data.getJSONObject(i);
-                String id = user.optString("id", "ID not available");
                 String name = user.optString("name", "Name not available");
                 String email = user.optString("email", "Email not available");
 
@@ -85,7 +84,6 @@ public class CustomerSearch {
 
                 // Create a new Customer object and save it to the database
                 Customer customer = new Customer();
-                customer.setCustomerId(id); // Assuming id can be used as customerId
                 customer.setName(name);
                 customer.setEmail(email);
                 customer.setPhoneNumber(phone);

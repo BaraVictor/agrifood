@@ -19,8 +19,6 @@ public class Role implements GrantedAuthority {
     @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
     private List<User> users;
 
-    // Getters and setters for id, name, and users
-
     public Long getId() {
         return id;
     }

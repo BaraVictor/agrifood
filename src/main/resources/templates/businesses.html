@@ -258,8 +258,7 @@
     <table>
         <thead>
         <tr>
-            <th>Database ID</th>
-            <th>Business ID</th>
+            <th>ID</th>
             <th>Name</th>
             <th>Description</th>
             <th>Keyword</th>
@@ -271,7 +270,6 @@
         <tbody>
         <tr th:each="business : ${businesses}">
             <td th:text="${business.id}"></td>
-            <td th:text="${business.businessId}"></td>
             <td th:text="${business.name}"></td>
             <td th:text="${business.description}"></td>
             <td th:text="${business.keyword}"></td>

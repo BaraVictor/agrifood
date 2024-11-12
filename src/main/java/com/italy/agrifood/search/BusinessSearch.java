@@ -83,7 +83,6 @@ public class BusinessSearch {
 
                 // Creăm un nou obiect Business și îl salvăm în baza de date
                 Business business = new Business();
-                business.setBusinessId(id);
                 business.setName(name);
                 business.setDescription(about);
                 business.setKeyword(keyword);

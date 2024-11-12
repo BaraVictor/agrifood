@@ -189,11 +189,6 @@
     <h1>Update Business</h1>
     <form th:action="@{/businesses/update/{id}(id=${business.id})}" method="post">
         <div class="form-group mb-3">
-            <label for="businessId">Business ID</label>
-            <input type="text" id="businessId" name="businessId" class="form-control" th:value="${business.businessId}" required />
-        </div>
-
-        <div class="form-group mb-3">
             <label for="name">Business Name</label>
             <input type="text" id="name" name="name" class="form-control" th:value="${business.name}" required />
         </div>

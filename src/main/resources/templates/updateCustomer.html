@@ -176,11 +176,6 @@
     <h1>Update Customer</h1>
     <form th:action="@{/customers/update/{id}(id=${customer.id})}" method="post">
         <div class="form-group mb-3">
-            <label for="customerId">Customer ID</label>
-            <input type="text" id="customerId" name="customerId" class="form-control" th:value="${customer.customerId}" required />
-        </div>
-
-        <div class="form-group mb-3">
             <label for="name">Customer Name</label>
             <input type="text" id="name" name="name" class="form-control" th:value="${customer.name}" required />
         </div>

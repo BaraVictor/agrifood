@@ -16,9 +16,6 @@ public class Business {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String businessId;
-
     @Column(name = "name", nullable = false)
     private String name;
 
@@ -31,12 +28,12 @@ public class Business {
     @Column(nullable = true, length = 500) // Lungimea maximă de 500 pentru URL, poate fi ajustată
     private String pageLink;
 
-    public String getBusinessId() {
-        return businessId;
+    public Long getId() {
+        return id;
     }
 
-    public void setBusinessId(String businessId) {
-        this.businessId = businessId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {

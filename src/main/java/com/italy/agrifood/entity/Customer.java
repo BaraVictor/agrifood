@@ -16,9 +16,6 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
-    private String customerId;
-
     @Column(nullable = false)
     private String name;
 
@@ -28,13 +25,12 @@ public class Customer {
     @Column(nullable = false, unique = true)
     private String phone;
 
-    // Custom getters and setters if needed
-    public String getCustomerId() {
-        return customerId;
+    public Long getId() {
+        return id;
     }
 
-    public void setCustomerId(String customerId) {
-        this.customerId = customerId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {

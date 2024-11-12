@@ -22,14 +22,7 @@ public class CustomerService {
     }
 
     public void saveCustomer(Customer customer) {
-        if (customer.getCustomerId() == null || customer.getCustomerId().isEmpty()) {
-            customer.setCustomerId(generateCustomerId());
-        }
         customerRepository.save(customer);
-    }
-
-    private String generateCustomerId() {
-        return "CUS" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
     }
 
     public void updateCustomer(Long id, Customer customer) {
@@ -39,13 +32,7 @@ public class CustomerService {
             existingCustomer.setName(customer.getName());
             existingCustomer.setEmail(customer.getEmail());
             existingCustomer.setPhoneNumber(customer.getPhoneNumber());
-
-            if (customer.getCustomerId() == null || customer.getCustomerId().isEmpty()) {
-                existingCustomer.setCustomerId(generateCustomerId());
-            } else {
-                existingCustomer.setCustomerId(customer.getCustomerId());
-            }
-
+            existingCustomer.setId(customer.getId());
             customerRepository.save(existingCustomer);
         } else {
             throw new EntityNotFoundException("Customer with ID " + id + " not found");

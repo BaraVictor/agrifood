@@ -54,7 +54,8 @@ public class SecurityConfig {
             )
             .formLogin(formLogin -> formLogin
                 .loginPage("/login") // Pagină de autentificare personalizată
-                .loginProcessingUrl("/perform_login")
+                    .usernameParameter("email")
+                    .loginProcessingUrl("/perform_login")
                 .permitAll()
                 .defaultSuccessUrl("/welcome", true)
                 .failureUrl("/login?error=true")

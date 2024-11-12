@@ -24,9 +24,6 @@ public class BusinessService {
     }
 
     public void saveBusiness(Business business) {
-        if (business.getBusinessId() == null || business.getBusinessId().isEmpty()) {
-            business.setBusinessId(generateBusinessId());
-        }
         businessRepository.save(business);
     }
 
@@ -42,13 +39,7 @@ public class BusinessService {
             existingBusiness.setDescription(business.getDescription());
             existingBusiness.setKeyword(business.getKeyword());
             existingBusiness.setPageLink(business.getPageLink());
-
-            if (business.getBusinessId() == null || business.getBusinessId().isEmpty()) {
-                existingBusiness.setBusinessId(generateBusinessId());
-            } else {
-                existingBusiness.setBusinessId(business.getBusinessId());
-            }
-
+            existingBusiness.setId(business.getId());
             businessRepository.save(existingBusiness);
         } else {
             throw new EntityNotFoundException("Business with ID " + id + " not found");

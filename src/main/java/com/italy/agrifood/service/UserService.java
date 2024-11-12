@@ -2,6 +2,7 @@ package com.italy.agrifood.service;
 
 import com.italy.agrifood.entity.User;
 import com.italy.agrifood.entity.Role;
+import com.italy.agrifood.exception.EmailNotFoundException;
 import com.italy.agrifood.repo.UserRepo;
 import com.italy.agrifood.repo.RoleRepo;
 import jakarta.persistence.EntityNotFoundException;
@@ -77,8 +78,17 @@ public class UserService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepo.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        try {
+            // Apelăm loadUserByEmail și tratăm excepția dacă utilizatorul nu e găsit
+            return loadUserByEmail(email);
+        } catch (EmailNotFoundException e) {
+            throw new UsernameNotFoundException(e.getMessage());
+        }
+    }
+
+    public UserDetails loadUserByEmail(String email) throws EmailNotFoundException {
+        return userRepo.findByEmail(email)
+                .orElseThrow(() -> new EmailNotFoundException("User not found with username: " + email));
     }
 }
