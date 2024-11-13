@@ -19,24 +19,20 @@ public class RoleService {
         this.roleRepository = roleRepository;
     }
 
-    // Get all roles
     public List<Role> getAllRoles() {
         return roleRepository.findAll();
     }
 
-    // Find a role by its ID
     public Role getRoleById(Long id) {
         return roleRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Role not found with ID: " + id));
     }
 
-    // Find a role by its name
     public Role getRoleByName(String roleName) {
         return roleRepository.findByName(roleName)
                 .orElseThrow(() -> new EntityNotFoundException("Role not found with name: " + roleName));
     }
 
-    // Create a new role
     public Role createRole(String roleName) {
         if (roleRepository.findByName(roleName).isPresent()) {
             throw new IllegalArgumentException("Role already exists: " + roleName);
@@ -47,7 +43,6 @@ public class RoleService {
         return roleRepository.save(role);
     }
 
-    // Delete a role by its ID
     public void deleteRole(Long id) {
         if (!roleRepository.existsById(id)) {
             throw new EntityNotFoundException("Role not found with ID: " + id);

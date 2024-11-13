@@ -25,7 +25,7 @@ public class Business {
     @Column(nullable = true)
     private String description;
 
-    @Column(nullable = true, length = 500) // Lungimea maximă de 500 pentru URL, poate fi ajustată
+    @Column(nullable = true, length = 500)
     private String pageLink;
 
     public Long getId() {

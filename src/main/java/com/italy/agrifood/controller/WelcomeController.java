@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class WelcomeController {
     @GetMapping("/add")
     public String showAddBusinessPage() {
-        return "addBusiness";  // Se va căuta în resources/templates/addBusiness.html
+        return "addBusiness";
     }
     @GetMapping("/welcome")
     public String welcome(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String role = authentication.getAuthorities().iterator().next().getAuthority();
-        model.addAttribute("role", role);  // Adaugă rolul în model pentru Thymeleaf
+        model.addAttribute("role", role);
         return "welcome";
     }
 }

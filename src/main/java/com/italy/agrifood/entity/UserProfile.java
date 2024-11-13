@@ -28,7 +28,6 @@ public class UserProfile {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    // Getters and setters
     public Long getId() {
         return id;
     }

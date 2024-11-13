@@ -64,7 +64,6 @@ public class BusinessService {
         return businesses.stream().collect(Collectors.groupingBy(Business::getKeyword));
     }
 
-    // Metodele cu paginare
     public Page<Business> getAllBusinesses(Pageable pageable) {
         return businessRepository.findAll(pageable);
     }

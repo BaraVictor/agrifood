@@ -39,7 +39,7 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new EntityNotFoundException("Role not found: " + roleName));
         user.setRole(role);
 
-        userRepo.save(user); // Save the user to the database
+        userRepo.save(user);
     }
 
     public void updateUser(Long id, User updatedUser, String roleName) {
@@ -49,7 +49,6 @@ public class UserService implements UserDetailsService {
         user.setUsername(updatedUser.getUsername());
         user.setEmail(updatedUser.getEmail());
 
-        // Only encode and set the password if it is provided
         if (updatedUser.getPassword() != null && !updatedUser.getPassword().isEmpty()) {
             user.setPassword(passwordEncoder.encode(updatedUser.getPassword())); // Encode the new password
         }
@@ -58,14 +57,14 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new EntityNotFoundException("Role not found: " + roleName));
         user.setRole(role);
 
-        userRepo.save(user); // Save the updated user to the database
+        userRepo.save(user);
     }
 
     public void deleteUser(Long id) {
         if (!userRepo.existsById(id)) {
             throw new EntityNotFoundException("User not found with id: " + id);
         }
-        userRepo.deleteById(id); // Delete the user by id
+        userRepo.deleteById(id);
     }
 
     public User getUserById(Long id) {
@@ -74,13 +73,12 @@ public class UserService implements UserDetailsService {
     }
 
     public List<User> getAllUsers() {
-        return userRepo.findAll(); // Return all users
+        return userRepo.findAll();
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         try {
-            // Apelăm loadUserByEmail și tratăm excepția dacă utilizatorul nu e găsit
             return loadUserByEmail(email);
         } catch (EmailNotFoundException e) {
             throw new UsernameNotFoundException(e.getMessage());

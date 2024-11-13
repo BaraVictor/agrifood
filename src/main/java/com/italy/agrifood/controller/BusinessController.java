@@ -24,14 +24,12 @@ public class BusinessController {
         this.businessService = businessService;
     }
 
-    // Display form to add a new business
     @GetMapping("/add")
     public String showAddBusinessForm(Model model) {
         model.addAttribute("business", new Business());
         return "addBusiness";
     }
 
-    // Handle submission of new business form
     @PostMapping("/add")
     public String addBusiness(@ModelAttribute Business business, RedirectAttributes redirectAttributes) {
         businessService.saveBusiness(business);
@@ -39,7 +37,6 @@ public class BusinessController {
         return "redirect:/businesses";
     }
 
-    // Show paginated list of all businesses
     @GetMapping
     public String showAllBusinesses(Model model,
                                     @RequestParam(defaultValue = "0") int page,
@@ -47,8 +44,8 @@ public class BusinessController {
         Pageable pageable = PageRequest.of(page, size);
         Page<Business> businessPage = businessService.getAllBusinesses(pageable);
 
-        model.addAttribute("businesses", businessPage.getContent());  // List of businesses for Thymeleaf
-        model.addAttribute("businessPage", businessPage);  // Full Page object for pagination
+        model.addAttribute("businesses", businessPage.getContent());
+        model.addAttribute("businessPage", businessPage);
         model.addAttribute("currentPage", businessPage.getNumber());
         model.addAttribute("totalPages", businessPage.getTotalPages());
         model.addAttribute("pageSize", businessPage.getSize());
@@ -57,7 +54,6 @@ public class BusinessController {
         return "businesses";
     }
 
-    // Display form to update an existing business
     @GetMapping("/update/{id}")
     public String showUpdateForm(@PathVariable Long id, Model model) {
         Business business = businessService.findById(id);
@@ -73,7 +69,6 @@ public class BusinessController {
         return "updateBusiness";
     }
 
-    // Handle form submission for updating the business
     @PostMapping("/update/{id}")
     public String updateBusiness(@PathVariable Long id, @ModelAttribute Business business, RedirectAttributes redirectAttributes) {
         if (business.getName() == null || business.getName().trim().isEmpty()) {
@@ -90,7 +85,6 @@ public class BusinessController {
         return "redirect:/businesses";
     }
 
-    // Delete a business
     @PostMapping("/delete/{id}")
     public String deleteBusiness(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
@@ -102,7 +96,6 @@ public class BusinessController {
         return "redirect:/businesses";
     }
 
-    // Search businesses by name with pagination
     @GetMapping("/search")
     public String searchBusinesses(@RequestParam("query") String query, Model model,
                                    @RequestParam(defaultValue = "0") int page,
@@ -110,8 +103,8 @@ public class BusinessController {
         Pageable pageable = PageRequest.of(page, size);
         Page<Business> searchResults = businessService.searchBusinessesByName(query, pageable);
 
-        model.addAttribute("businesses", searchResults.getContent());  // List of search results
-        model.addAttribute("businessPage", searchResults);  // Full Page object
+        model.addAttribute("businesses", searchResults.getContent());
+        model.addAttribute("businessPage", searchResults);
         model.addAttribute("query", query);
         model.addAttribute("currentPage", searchResults.getNumber());
         model.addAttribute("totalPages", searchResults.getTotalPages());
@@ -121,7 +114,6 @@ public class BusinessController {
         return "businesses";
     }
 
-    // Sort businesses by selected keyword with pagination
     @GetMapping("/sort")
     public String sortBusinessesByKeyword(@RequestParam(value = "keyword", required = false) String keyword,
                                           Model model,
@@ -131,13 +123,13 @@ public class BusinessController {
         Page<Business> businessPage;
 
         if (keyword == null || keyword.isEmpty() || keyword.equals("Tutti")) {
-            businessPage = businessService.getAllBusinesses(pageable); // Show all businesses
+            businessPage = businessService.getAllBusinesses(pageable);
         } else {
-            businessPage = businessService.findBusinessesByKeyword(keyword, pageable); // Filter by keyword
+            businessPage = businessService.findBusinessesByKeyword(keyword, pageable);
         }
 
-        model.addAttribute("businesses", businessPage.getContent());  // List of businesses
-        model.addAttribute("businessPage", businessPage);  // Full Page object
+        model.addAttribute("businesses", businessPage.getContent());
+        model.addAttribute("businessPage", businessPage);
         model.addAttribute("keywords", businessService.getAllKeywords());
         model.addAttribute("selectedKeyword", keyword);
         model.addAttribute("currentPage", businessPage.getNumber());
