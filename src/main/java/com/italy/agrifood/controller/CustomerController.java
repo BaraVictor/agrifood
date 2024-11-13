@@ -21,14 +21,12 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    // Display form to add a new customer
     @GetMapping("/add")
     public String showAddCustomerForm(Model model) {
         model.addAttribute("customer", new Customer());
         return "addCustomer";
     }
 
-    // Handle submission of new customer form
     @PostMapping("/add")
     public String addCustomer(@ModelAttribute Customer customer, RedirectAttributes redirectAttributes) {
         customerService.saveCustomer(customer);
@@ -36,7 +34,6 @@ public class CustomerController {
         return "redirect:/customers";
     }
 
-    // Show paginated list of all customers
     @GetMapping
     public String showAllCustomers(Model model,
                                    @RequestParam(defaultValue = "0") int page,
@@ -44,8 +41,8 @@ public class CustomerController {
         Pageable pageable = PageRequest.of(page, size);
         Page<Customer> customerPage = customerService.getAllCustomers(pageable);
 
-        model.addAttribute("customers", customerPage.getContent());  // List of customers for Thymeleaf
-        model.addAttribute("customerPage", customerPage);  // Full Page object for pagination
+        model.addAttribute("customers", customerPage.getContent());
+        model.addAttribute("customerPage", customerPage);
         model.addAttribute("currentPage", customerPage.getNumber());
         model.addAttribute("totalPages", customerPage.getTotalPages());
         model.addAttribute("pageSize", customerPage.getSize());
@@ -53,7 +50,6 @@ public class CustomerController {
         return "customers";
     }
 
-    // Display form to update an existing customer
     @GetMapping("/update/{id}")
     public String showUpdateForm(@PathVariable Long id, Model model) {
         Customer customer = customerService.findById(id);
@@ -65,7 +61,6 @@ public class CustomerController {
         return "updateCustomer";
     }
 
-    // Handle form submission for updating the customer
     @PostMapping("/update/{id}")
     public String updateCustomer(@PathVariable Long id, @ModelAttribute Customer customer, RedirectAttributes redirectAttributes) {
         if (customer.getName() == null || customer.getName().trim().isEmpty()) {
@@ -82,7 +77,6 @@ public class CustomerController {
         return "redirect:/customers";
     }
 
-    // Delete a customer
     @PostMapping("/delete/{id}")
     public String deleteCustomer(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
@@ -94,7 +88,6 @@ public class CustomerController {
         return "redirect:/customers";
     }
 
-    // Search customers by name with pagination
     @GetMapping("/search")
     public String searchCustomers(@RequestParam("query") String query, Model model,
                                   @RequestParam(defaultValue = "0") int page,
@@ -102,8 +95,8 @@ public class CustomerController {
         Pageable pageable = PageRequest.of(page, size);
         Page<Customer> searchResults = customerService.searchCustomersByName(query, pageable);
 
-        model.addAttribute("customers", searchResults.getContent());  // List of search results
-        model.addAttribute("customerPage", searchResults);  // Full Page object
+        model.addAttribute("customers", searchResults.getContent());
+        model.addAttribute("customerPage", searchResults);
         model.addAttribute("query", query);
         model.addAttribute("currentPage", searchResults.getNumber());
         model.addAttribute("totalPages", searchResults.getTotalPages());

@@ -9,17 +9,15 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface BusinessRepo extends JpaRepository<Business, Long> {
-    // Interogare pentru a obține o listă distinctă de keyword-uri
     @Query("SELECT DISTINCT b.keyword FROM Business b WHERE b.keyword IS NOT NULL")
     List<String> findDistinctKeywords();
 
-    // Metodă pentru a căuta afaceri care conțin un anumit text în nume
     List<Business> findByNameContainingIgnoreCase(String name);
 
-    // Metodă pentru a obține toate afacerile ordonate după keyword
     List<Business> findAllByOrderByKeywordAsc();
 
     Page<Business> findByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCase(String name, String description, Pageable pageable);
+
     Page<Business> findByKeywordOrderByKeywordAsc(String keyword, Pageable pageable);
 
     List<Business> findByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCase(String name, String description);

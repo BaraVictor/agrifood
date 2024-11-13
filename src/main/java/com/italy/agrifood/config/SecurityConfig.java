@@ -42,18 +42,18 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .csrf(csrf -> csrf
-                .disable() // Temporar, pentru testare - dezactivare CSRF
+                .disable()
             )
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/welcome", "/error", "/login", "/register").permitAll() // Endpoints publice
-                .requestMatchers("/assets/**", "/css/**", "/js/**", "/images/**").permitAll() // Permite accesul la resursele statice
-                .requestMatchers("/businesses/view", "/customers/view").hasAnyAuthority("VIEWER", "EDITOR", "ADMIN") // Vizualizare
-                .requestMatchers("/businesses/add", "/businesses/update/**", "/customers/add", "/customers/update/**").hasAnyAuthority("EDITOR", "ADMIN") // Adăugare și actualizare
-                .requestMatchers("/businesses/delete/**", "/customers/delete/**").hasAuthority("ADMIN") // Ștergere doar pentru ADMIN
-                .anyRequest().authenticated() // Toate celelalte requesturi necesită autentificare
+                .requestMatchers("/welcome", "/error", "/login", "/register").permitAll()
+                .requestMatchers("/assets/**", "/css/**", "/js/**", "/images/**").permitAll()
+                .requestMatchers("/businesses/view", "/customers/view").hasAnyAuthority("VIEWER", "EDITOR", "ADMIN")
+                .requestMatchers("/businesses/add", "/businesses/update/**", "/customers/add", "/customers/update/**").hasAnyAuthority("EDITOR", "ADMIN")
+                .requestMatchers("/businesses/delete/**", "/customers/delete/**").hasAuthority("ADMIN")
+                .anyRequest().authenticated()
             )
             .formLogin(formLogin -> formLogin
-                .loginPage("/login") // Pagină de autentificare personalizată
+                .loginPage("/login")
                     .usernameParameter("email")
                     .loginProcessingUrl("/perform_login")
                 .permitAll()
