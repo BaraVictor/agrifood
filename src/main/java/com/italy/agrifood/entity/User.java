@@ -33,8 +33,6 @@ public class User implements UserDetails {
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
 
-    // Getters and setters for username, password, email, and role
-
     public Long getId() {
         return id;
     }
@@ -75,11 +73,9 @@ public class User implements UserDetails {
         this.role = role;
     }
 
-    // Implementing methods from UserDetails interface
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(role); // Assumes Role implements GrantedAuthority
+        return Collections.singletonList(role);
     }
 
     @Override

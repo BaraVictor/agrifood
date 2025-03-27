@@ -26,25 +26,22 @@ public class UserController {
         this.roleService = roleService;
     }
 
-    // View all users - Accessible to VIEWER, WORKER, MANAGER roles
     @GetMapping
     @PreAuthorize("hasAnyRole('VIEWER', 'WORKER', 'MANAGER')")
     public String listUsers(Model model) {
         List<User> users = userService.getAllUsers();
         model.addAttribute("users", users);
-        return "users"; // Return Thymeleaf view for user list
+        return "users";
     }
 
-    // Display form to add a new user - Accessible to WORKER, MANAGER roles
     @GetMapping("/add")
     @PreAuthorize("hasAnyRole('WORKER', 'MANAGER')")
     public String showAddUserForm(Model model) {
         model.addAttribute("user", new User());
         model.addAttribute("roles", roleService.getAllRoles());
-        return "addUser"; // Return Thymeleaf view for adding a user
+        return "addUser";
     }
 
-    // Handle form submission for adding a new user - Accessible to WORKER, MANAGER roles
     @PostMapping("/add")
     @PreAuthorize("hasAnyRole('WORKER', 'MANAGER')")
     public String addUser(@ModelAttribute User user, @RequestParam("role") String roleName, RedirectAttributes redirectAttributes) {
@@ -57,7 +54,6 @@ public class UserController {
         return "redirect:/users";
     }
 
-    // Display form to update an existing user - Accessible to WORKER, MANAGER roles
     @GetMapping("/update/{id}")
     @PreAuthorize("hasAnyRole('WORKER', 'MANAGER')")
     public String showUpdateForm(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
@@ -72,7 +68,6 @@ public class UserController {
         }
     }
 
-    // Handle form submission for updating a user - Accessible to WORKER, MANAGER roles
     @PostMapping("/update/{id}")
     @PreAuthorize("hasAnyRole('WORKER', 'MANAGER')")
     public String updateUser(@PathVariable Long id, @ModelAttribute User user, @RequestParam("role") String roleName, RedirectAttributes redirectAttributes) {
@@ -87,7 +82,6 @@ public class UserController {
         return "redirect:/users";
     }
 
-    // Delete a user - Accessible only to MANAGER role
     @PostMapping("/delete/{id}")
     @PreAuthorize("hasRole('MANAGER')")
     public String deleteUser(@PathVariable Long id, RedirectAttributes redirectAttributes) {
@@ -102,9 +96,8 @@ public class UserController {
         return "redirect:/users";
     }
 
-    // Custom access denied page
     @GetMapping("/accessDenied")
     public String accessDenied() {
-        return "accessDenied"; // Return a custom access denied page
+        return "accessDenied";
     }
 }
