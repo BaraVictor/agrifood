@@ -52,7 +52,8 @@ public class SecurityConfig {
                 .requestMatchers("/businesses/delete/**", "/customers/delete/**").hasAuthority("ADMIN") // Ștergere doar pentru ADMIN
                 .anyRequest().authenticated() // Toate celelalte requesturi necesită autentificare
             )
-            .formLogin(formLogin -> formLogin
+                .anonymous(anonymous -> anonymous.authorities("GUEST")) // Înlocuiește ROLE_ANONYMOUS cu ROLE_GUEST
+                .formLogin(formLogin -> formLogin
                 .loginPage("/login") // Pagină de autentificare personalizată
                     .usernameParameter("email")
                     .loginProcessingUrl("/perform_login")
