@@ -45,8 +45,8 @@ public class SecurityConfig {
                 .disable() // Temporar, pentru testare - dezactivare CSRF
             )
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/welcome", "/error", "/login", "/register").permitAll() // Endpoints publice
-                .requestMatchers("/assets/**", "/css/**", "/js/**", "/images/**").permitAll() // Permite accesul la resursele statice
+                .requestMatchers("/welcome", "/error", "/login", "/register", "/reset-password", "/forgot-password").permitAll() // Endpoints publice
+                .requestMatchers("/assets/**", "/css/**", "/js/**", "/images/**", "/error/**").permitAll() // Permite accesul la resursele statice
                 .requestMatchers("/businesses/view", "/customers/view").hasAnyAuthority("VIEWER", "EDITOR", "ADMIN") // Vizualizare
                 .requestMatchers("/businesses/add", "/businesses/update/**", "/customers/add", "/customers/update/**").hasAnyAuthority("EDITOR", "ADMIN") // Adăugare și actualizare
                 .requestMatchers("/businesses/delete/**", "/customers/delete/**").hasAuthority("ADMIN") // Ștergere doar pentru ADMIN
@@ -66,8 +66,12 @@ public class SecurityConfig {
                 .logoutSuccessUrl("/welcome?logout=true")
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID")
+            )
+            .exceptionHandling(exception -> exception
+                .accessDeniedHandler((request, response, accessDeniedException) -> {
+                    response.sendRedirect("/error?status=403&message=" + accessDeniedException.getMessage());
+                })
             );
-
         return http.build();
     }
 

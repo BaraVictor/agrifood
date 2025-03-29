@@ -96,8 +96,8 @@ public class UserController {
         return "redirect:/users";
     }
 
-    @GetMapping("/accessDenied")
+    @GetMapping("/error")
     public String accessDenied() {
-        return "accessDenied";
+        return "error";
     }
 }

@@ -3,6 +3,7 @@ package com.italy.agrifood.service;
 import com.italy.agrifood.entity.Business;
 import com.italy.agrifood.repo.BusinessRepo;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -46,6 +47,7 @@ public class BusinessService {
         }
     }
 
+    @Transactional
     public Business findById(Long id) {
         return businessRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Business not found with id " + id));
@@ -78,9 +80,5 @@ public class BusinessService {
 
     public Page<Business> searchBusinessesByName(String name, Pageable pageable) {
         return businessRepository.findByNameContainingIgnoreCase(name, pageable);
-    }
-
-    public Page<Business> searchBusinessesByNameOrDescription(String name, String description, Pageable pageable) {
-        return businessRepository.findByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCase(name, description, pageable);
     }
 }

@@ -1,25 +1,26 @@
 package com.italy.agrifood.service;
 
+import com.italy.agrifood.entity.Business;
 import com.italy.agrifood.entity.Customer;
 import com.italy.agrifood.repo.CustomerRepo;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class CustomerService {
 
     private final CustomerRepo customerRepository;
-
-    @Autowired
-    public CustomerService(CustomerRepo customerRepository) {
-        this.customerRepository = customerRepository;
-    }
 
     public void saveCustomer(Customer customer) {
         customerRepository.save(customer);
@@ -31,7 +32,7 @@ public class CustomerService {
             Customer existingCustomer = existingCustomerOptional.get();
             existingCustomer.setName(customer.getName());
             existingCustomer.setEmail(customer.getEmail());
-            existingCustomer.setPhoneNumber(customer.getPhoneNumber());
+            existingCustomer.setPhone(customer.getPhone());
             existingCustomer.setId(customer.getId());
             customerRepository.save(existingCustomer);
         } else {
@@ -59,5 +60,9 @@ public class CustomerService {
 
     public Page<Customer> searchCustomersByNameOrEmail(String name, String email, Pageable pageable) {
         return customerRepository.findByNameContainingIgnoreCaseOrEmailContainingIgnoreCase(name, email, pageable);
+    }
+
+    public List<Customer> getAllCustomersForBusiness(Business business) {
+        return customerRepository.findByBusinesses(business);
     }
 }

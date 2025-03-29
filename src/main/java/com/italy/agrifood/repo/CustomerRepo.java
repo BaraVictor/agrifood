@@ -1,5 +1,6 @@
 package com.italy.agrifood.repo;
 
+import com.italy.agrifood.entity.Business;
 import com.italy.agrifood.entity.Customer;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,15 +10,15 @@ import java.util.List;
 
 public interface CustomerRepo extends JpaRepository<Customer, Long> {
 
-    List<Customer> findByNameContainingIgnoreCase(String name);
+    List<Customer> findAll();
 
     Page<Customer> findByNameContainingIgnoreCaseOrEmailContainingIgnoreCase(String name, String email, Pageable pageable);
-
-    List<Customer> findByPhoneContaining(String phone);
 
     Page<Customer> findAll(Pageable pageable);
 
     Page<Customer> findByNameContainingIgnoreCase(String name, Pageable pageable);
 
-    Page<Customer> findByEmailContainingIgnoreCase(String email, Pageable pageable);
+    List<Customer> findByBusinesses(Business business);
+
+
 }
