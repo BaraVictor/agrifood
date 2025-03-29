@@ -90,4 +90,35 @@ INSERT INTO user (username, password, email, role_id) VALUES
 ('workerUser', '$2a$12$NEVmAc7TiUSiiqaI9OBiZeKjSZQr27FnZZQVtC0FS/7NgwdjjOXMq', 'worker@example.com', 2), -- Password: worker123
 ('managerUser', '$2a$12$DLPFJkQLTipXtSi.RvpYxe50leTjXTWm/rVx2MkPC5rdTI1ybe9AS', 'manager@example.com', 3); -- Password: admin123
 
-
+-- Insert relationships between businesses and customers
+INSERT INTO business_customers (business_id, customer_id) VALUES
+(1, 1),
+(1, 2),
+(2, 3),
+(2, 4),
+(3, 5),
+(3, 6),
+(4, 7),
+(4, 8),
+(5, 9),
+(5, 10),
+(6, 11),
+(6, 12),
+(7, 13),
+(7, 14),
+(8, 15),
+(8, 16),
+(9, 17),
+(9, 18),
+(10, 19),
+(10, 20),
+(11, 1),
+(12, 2),
+(13, 3),
+(14, 4),
+(15, 5),
+(16, 6),
+(17, 7),
+(18, 8),
+(19, 9),
+(20, 10);

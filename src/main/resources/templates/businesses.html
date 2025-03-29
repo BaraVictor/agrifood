@@ -270,7 +270,9 @@
         <tbody>
         <tr th:each="business : ${businesses}">
             <td th:text="${business.id}"></td>
-            <td th:text="${business.name}"></td>
+            <td>
+                <a th:href="@{/businesses/{id}/customers(id=${business.id})}" th:text="${business.name}" style="color: #007bff; text-decoration: underline;"></a>
+            </td>
             <td th:text="${business.description}"></td>
             <td th:text="${business.keyword}"></td>
             <td>

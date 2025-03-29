@@ -26,9 +26,6 @@ public class User implements UserDetails {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private UserProfile userProfile;
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
