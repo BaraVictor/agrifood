@@ -46,7 +46,7 @@ public class SecurityConfig {
             )
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/welcome", "/error", "/login", "/register").permitAll() // Endpoints publice
-                .requestMatchers("/assets/**", "/css/**", "/js/**", "/images/**").permitAll() // Permite accesul la resursele statice
+                .requestMatchers("/assets/**", "/css/**", "/js/**", "/images/**", "/error/**").permitAll() // Permite accesul la resursele statice
                 .requestMatchers("/businesses/view", "/customers/view").hasAnyAuthority("VIEWER", "EDITOR", "ADMIN") // Vizualizare
                 .requestMatchers("/businesses/add", "/businesses/update/**", "/customers/add", "/customers/update/**").hasAnyAuthority("EDITOR", "ADMIN") // Adăugare și actualizare
                 .requestMatchers("/businesses/delete/**", "/customers/delete/**").hasAuthority("ADMIN") // Ștergere doar pentru ADMIN
@@ -66,8 +66,10 @@ public class SecurityConfig {
                 .logoutSuccessUrl("/welcome?logout=true")
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID")
+            )
+            .exceptionHandling(exception -> exception
+                .accessDeniedPage("/error") // Handling access denied and redirecting to the custom error page
             );
-
         return http.build();
     }
 

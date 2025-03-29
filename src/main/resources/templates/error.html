@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background-image: url('/assets/farm.jpg'); /* Keep the same background */
+            background-size: cover;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: white;
+            overflow: hidden;
+        }
+
+        .error-container {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 3rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .error-container h1 {
+            margin-bottom: 1rem;
+            color: #333;
+            font-size: 2.5em;
+            font-weight: 600;
+        }
+
+        .error-container h2 {
+            margin-bottom: 1rem;
+            color: #e74c3c;
+            font-size: 1.8em;
+            font-weight: 500;
+        }
+
+        .error-container p {
+            font-size: 1.2em;
+            color: #555;
+            margin-bottom: 1.5rem;
+        }
+
+        .error-icon {
+            font-size: 3rem;
+            color: #e74c3c;
+            margin-bottom: 1rem;
+        }
+
+        .home-button {
+            background-color: #2575fc;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .home-button:hover {
+            background-color: #1a60b4;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="error-container">
+    <i class="fas fa-exclamation-triangle error-icon"></i>
+    <h1 th:text="${status} ?: 'Oops!'">Error</h1>
+    <!-- Display the error attribute if available -->
+    <h2 th:if="${error}" th:text="${error}"></h2>
+    <p th:text="${message} ?: 'Something went wrong. Please try again later.'"></p>
+    <a href="/welcome" class="home-button"><i class="fas fa-home"></i> Go Home</a>
+</div>
+
+</body>
+</html>

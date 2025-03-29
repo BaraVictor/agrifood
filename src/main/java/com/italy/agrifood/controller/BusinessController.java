@@ -1,7 +1,9 @@
 package com.italy.agrifood.controller;
 
 import com.italy.agrifood.entity.Business;
+import com.italy.agrifood.entity.Customer;
 import com.italy.agrifood.service.BusinessService;
+import com.italy.agrifood.service.CustomerService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,9 +21,15 @@ import java.util.List;
 public class BusinessController {
 
     private final BusinessService businessService;
+    private final CustomerService customerService;
 
-    public BusinessController(BusinessService businessService) {
+    public BusinessController(BusinessService businessService, CustomerService customerService) {
         this.businessService = businessService;
+        this.customerService = customerService;
+    }
+
+    private Pageable createPageRequest(int page, int size) {
+        return PageRequest.of(page, size);
     }
 
     @GetMapping("/add")
@@ -41,7 +49,7 @@ public class BusinessController {
     public String showAllBusinesses(Model model,
                                     @RequestParam(defaultValue = "0") int page,
                                     @RequestParam(defaultValue = "10") int size) {
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = createPageRequest(page, size);
         Page<Business> businessPage = businessService.getAllBusinesses(pageable);
 
         model.addAttribute("businesses", businessPage.getContent());
@@ -100,7 +108,7 @@ public class BusinessController {
     public String searchBusinesses(@RequestParam("query") String query, Model model,
                                    @RequestParam(defaultValue = "0") int page,
                                    @RequestParam(defaultValue = "10") int size) {
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = createPageRequest(page, size);
         Page<Business> searchResults = businessService.searchBusinessesByName(query, pageable);
 
         model.addAttribute("businesses", searchResults.getContent());
@@ -119,14 +127,10 @@ public class BusinessController {
                                           Model model,
                                           @RequestParam(defaultValue = "0") int page,
                                           @RequestParam(defaultValue = "10") int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        Page<Business> businessPage;
-
-        if (keyword == null || keyword.isEmpty() || keyword.equals("Tutti")) {
-            businessPage = businessService.getAllBusinesses(pageable);
-        } else {
-            businessPage = businessService.findBusinessesByKeyword(keyword, pageable);
-        }
+        Pageable pageable = createPageRequest(page, size);
+        Page<Business> businessPage = (keyword == null || keyword.isEmpty() || keyword.equals("Tutti"))
+            ? businessService.getAllBusinesses(pageable)
+            : businessService.findBusinessesByKeyword(keyword, pageable);
 
         model.addAttribute("businesses", businessPage.getContent());
         model.addAttribute("businessPage", businessPage);
@@ -137,5 +141,20 @@ public class BusinessController {
         model.addAttribute("pageSize", businessPage.getSize());
 
         return "businesses";
+    }
+
+    @GetMapping("/{id}/customers")
+    public String showCustomersForBusiness(@PathVariable Long id, Model model) {
+        Business business = businessService.findById(id);
+        if (business == null) {
+            model.addAttribute("errorMessage", "Business not found.");
+            return "redirect:/businesses";
+        }
+
+        List<Customer> allCustomers = customerService.getAllCustomersForBusiness(business);
+        model.addAttribute("business", business);
+        model.addAttribute("customers", allCustomers);
+
+        return "businessCustomers";
     }
 }

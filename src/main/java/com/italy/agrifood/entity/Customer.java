@@ -2,13 +2,11 @@ package com.italy.agrifood.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
 @Table(name = "customers")
 public class Customer {
 
@@ -25,35 +23,6 @@ public class Customer {
     @Column(nullable = false, unique = true)
     private String phone;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhoneNumber() {
-        return phone;
-    }
-
-    public void setPhoneNumber(String phone) {
-        this.phone = phone;
-    }
+    @ManyToMany(mappedBy = "customers")
+    private Set<Business> businesses = new HashSet<>();
 }
