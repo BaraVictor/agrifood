@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Verify Code</title>
+  <style>
+    body {
+        background-image: url('/assets/farm.jpg');
+        background-size: cover;
+        background-position: center;
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .verify-code-container {
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 3rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        width: 100%;
+        max-width: 400px;
+        text-align: center;
+    }
+
+    .verify-code-container h1 {
+        margin-bottom: 1.5rem;
+        color: #333;
+        font-size: 2rem;
+    }
+
+    .verify-code-container input {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 16px;
+        background-color: #f7f7f7;
+    }
+
+    .verify-code-container button {
+        background-color: #2575fc;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .verify-code-container button:hover {
+        background-color: #1a60b4;
+    }
+
+    .error-message {
+        color: #e74c3c;
+        font-size: 14px;
+        margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="verify-code-container">
+  <h1>Verify Your Code</h1>
+
+  <form th:action="@{/auth/verify-code}" method="post">
+    <input type="hidden" name="email" th:value="${email}" />
+
+    <label for="code">Enter the 6-digit code sent to your email:</label>
+    <input type="text" id="code" name="code" placeholder="e.g. 123456" required />
+
+    <button type="submit">Verify Code</button>
+  </form>
+
+  <div th:if="${error}" class="error-message" th:text="${error}"></div>
+</div>
+
+</body>
+</html>

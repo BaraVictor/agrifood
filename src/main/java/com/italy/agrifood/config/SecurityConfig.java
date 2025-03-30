@@ -47,7 +47,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/welcome", "/error", "/login", "/register", "/reset-password", "/forgot-password").permitAll() // Endpoints publice
                 .requestMatchers("/assets/**", "/css/**", "/js/**", "/images/**", "/error/**").permitAll() // Permite accesul la resursele statice
-                .requestMatchers("/businesses/view", "/customers/view").hasAnyAuthority("VIEWER", "EDITOR", "ADMIN") // Vizualizare
+                .requestMatchers("/businesses/view").hasAnyAuthority("VIEWER", "EDITOR", "ADMIN") // Vizualizare
                 .requestMatchers("/businesses/add", "/businesses/update/**", "/customers/add", "/customers/update/**").hasAnyAuthority("EDITOR", "ADMIN") // Adăugare și actualizare
                 .requestMatchers("/businesses/delete/**", "/customers/delete/**").hasAuthority("ADMIN") // Ștergere doar pentru ADMIN
                 .anyRequest().authenticated() // Toate celelalte requesturi necesită autentificare

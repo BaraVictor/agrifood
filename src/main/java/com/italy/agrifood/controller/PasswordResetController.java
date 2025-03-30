@@ -2,13 +2,11 @@ package com.italy.agrifood.controller;
 
 import com.italy.agrifood.entity.User;
 import com.italy.agrifood.repo.UserRepo;
-import com.italy.agrifood.service.EmailService;
-import com.italy.agrifood.service.TokenService;
+import com.italy.agrifood.service.SecurityCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -19,54 +17,76 @@ public class PasswordResetController {
   private UserRepo userRepository;
 
   @Autowired
-  private EmailService emailService;
-
-  @Autowired
-  private TokenService tokenService;
+  private SecurityCodeService securityCodeService;
 
   @GetMapping("/forgot-password")
   public String showForgotPasswordPage() {
-    return "forgotPassword";  // Ensure you have the correct template name
+    return "forgotPassword"; // Already implemented
+  }
+
+  @PostMapping("/forgot-password")
+  public String forgotPassword(@RequestParam String email, Model model) {
+    try {
+      User user = userRepository.findByEmail(email)
+              .orElseThrow(() -> new RuntimeException("User not found with email: " + email));
+
+      String code = securityCodeService.generateCode(email);
+      System.out.println("DEBUG: Security code for " + email + " is: " + code); // Useful during testing
+
+      // Redirect to code verification page
+      return "redirect:/auth/verify-code?email=" + email;
+    } catch (RuntimeException e) {
+      model.addAttribute("error", e.getMessage());
+      return "forgotPassword";
+    }
+  }
+
+  @GetMapping("/verify-code")
+  public String showCodeVerificationPage(@RequestParam String email, Model model) {
+    model.addAttribute("email", email);
+    return "verifyCode"; // You’ll add this HTML
+  }
+
+  @PostMapping("/verify-code")
+  public String verifyCode(@RequestParam String email, @RequestParam String code, Model model) {
+    if (securityCodeService.validateCode(email, code)) {
+      model.addAttribute("token", email); // use email as pseudo-token
+      securityCodeService.clearCode(email); // optional: clear after success
+      return "resetPassword"; // resetPassword.html already exists
+    } else {
+      model.addAttribute("email", email);
+      model.addAttribute("error", "Invalid verification code");
+      return "verifyCode";
+    }
   }
 
   @GetMapping("/reset-password")
   public String showResetPasswordPage() {
-    return "resetPassword";  // This should match your template name
+    return "resetPassword";
   }
 
-  // Endpoint to request a password reset
-  @PostMapping("/forgot-password")
-  public ResponseEntity<String> forgotPassword(@RequestParam String email) {
-    try {
-      User user = userRepository.findByEmail(email)
-          .orElseThrow(() -> new RuntimeException("User not found with email: " + email));
-
-      // Generate reset token and send recovery email
-      String token = tokenService.generateToken(user);
-      String resetLink = "http://your-domain.com/reset-password?token=" + token;
-      emailService.sendPasswordResetEmail(user.getEmail(), resetLink); // Implement this method in EmailService
-
-      return ResponseEntity.ok("Password recovery email sent");
-    } catch (RuntimeException e) {
-      return ResponseEntity.status(400).body(e.getMessage());
-    }
-  }
-
-  // Endpoint to reset password using the token
   @PostMapping("/reset-password")
-  public ResponseEntity<String> resetPassword(@RequestParam String token, @RequestParam String newPassword) {
+  public String resetPassword(@RequestParam String token,
+                              @RequestParam String newPassword,
+                              @RequestParam String confirmPassword,
+                              Model model) {
     try {
-      String email = tokenService.extractEmailFromToken(token);
+      if (!newPassword.equals(confirmPassword)) {
+        model.addAttribute("token", token);
+        model.addAttribute("error", "Passwords do not match");
+        return "resetPassword";
+      }
 
-      User user = userRepository.findByEmail(email)
-          .orElseThrow(() -> new RuntimeException("Invalid token: User not found"));
+      User user = userRepository.findByEmail(token)
+              .orElseThrow(() -> new RuntimeException("Invalid token: User not found"));
 
       user.setPassword(new BCryptPasswordEncoder().encode(newPassword));
       userRepository.save(user);
 
-      return ResponseEntity.ok("Password has been reset");
+      return "redirect:/login?resetSuccess"; // or show a success page
     } catch (RuntimeException e) {
-      return ResponseEntity.status(400).body(e.getMessage());
+      model.addAttribute("error", e.getMessage());
+      return "resetPassword";
     }
   }
 }
