@@ -24,16 +24,38 @@ public class UserService implements UserDetailsService {
 
     private final UserRepo userRepo;
     private final RoleRepo roleRepo;
+    private final TemporaryKeyService temporaryKeyService;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
     private JavaMailSender mailSender;
 
     @Autowired
-    public UserService(UserRepo userRepo, RoleRepo roleRepo, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepo userRepo, RoleRepo roleRepo, TemporaryKeyService temporaryKeyService, PasswordEncoder passwordEncoder) {
         this.userRepo = userRepo;
         this.roleRepo = roleRepo;
+        this.temporaryKeyService = temporaryKeyService;
         this.passwordEncoder = passwordEncoder;
+    }
+
+    public void registerUser(String username, String email, String password, String roleName, String adminKey) throws Exception {
+        Role role;
+
+        if ("ADMIN".equals(roleName) || "EDITOR".equals(roleName)) {
+            if (!temporaryKeyService.validateKey(adminKey, roleName)) {
+                throw new Exception("Invalid or expired key for " + roleName);
+            }
+        }
+
+        role = roleRepo.findByName(roleName).orElseThrow(() -> new Exception("Role not found"));
+
+        User user = new User();
+        user.setUsername(username);
+        user.setEmail(email);
+        user.setPassword(passwordEncoder.encode(password));
+        user.setRole(role);
+
+        userRepo.save(user);
     }
 
     public boolean sendPasswordResetEmail(String email) {
