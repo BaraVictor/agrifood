@@ -2,9 +2,8 @@ package com.italy.agrifood.controller;
 
 import com.italy.agrifood.service.UserService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class AuthController {
@@ -27,19 +26,47 @@ public class AuthController {
 
     @PostMapping("/forgot-password")
     public String handleForgotPassword(@RequestParam("email") String email) {
-        // Handle password reset request logic here
-        // For example, send an email with a password reset link to the user
         boolean emailSent = userService.sendPasswordResetEmail(email);
 
         if (emailSent) {
-            return "redirect:/forgot-password?success"; // Or show a success message on the page
+            return "redirect:/forgot-password?success";
         } else {
-            return "redirect:/forgot-password?error"; // Show an error message
+            return "redirect:/forgot-password?error";
         }
     }
 
     @GetMapping("/reset-password")
     public String showResetPasswordPage() {
         return "resetPassword";
+    }
+
+    @GetMapping("/register")
+    public String showRegisterPage() {
+        return "register"; // Shows the registration form
+    }
+
+    @PostMapping("/register")
+    public String register(@RequestParam String username,
+                           @RequestParam String email,
+                           @RequestParam String password,
+                           @RequestParam String role,
+                           @RequestParam(required = false) String adminKey,
+                           Model model) {
+
+        if (!role.equalsIgnoreCase("VIEWER")) {
+            boolean isValidKey = userService.isValidTemporaryKey(adminKey, role);
+            if (!isValidKey) {
+                model.addAttribute("errorMessage", "Invalid or expired key for selected role.");
+                return "register";
+            }
+        }
+
+        try {
+            userService.registerNewUser(username, email, password, role);
+            return "redirect:/login?registered";
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "register";
+        }
     }
 }

@@ -3,6 +3,7 @@ package com.italy.agrifood.service;
 import com.italy.agrifood.entity.User;
 import com.italy.agrifood.entity.Role;
 import com.italy.agrifood.exception.EmailNotFoundException;
+import com.italy.agrifood.repo.TemporaryKeyRepo;
 import com.italy.agrifood.repo.UserRepo;
 import com.italy.agrifood.repo.RoleRepo;
 import jakarta.persistence.EntityNotFoundException;
@@ -13,6 +14,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +31,10 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private JavaMailSender mailSender;
+
+    @Autowired
+    private TemporaryKeyRepo temporaryKeyRepo;
+
 
     @Autowired
     public UserService(UserRepo userRepo, RoleRepo roleRepo, TemporaryKeyService temporaryKeyService, PasswordEncoder passwordEncoder) {
@@ -146,4 +152,25 @@ public class UserService implements UserDetailsService {
         return userRepo.findByEmail(email)
                 .orElseThrow(() -> new EmailNotFoundException("User not found with username: " + email));
     }
+    public void registerNewUser(String username, String email, String password, String roleName) {
+        if (userRepo.findByEmail(email).isPresent()) {
+            throw new RuntimeException("Email already in use");
+        }
+
+        User user = new User();
+        user.setUsername(username);
+        user.setEmail(email);
+        user.setPassword(new BCryptPasswordEncoder().encode(password));
+        user.setRole(roleRepo.findByName(roleName)
+                .orElseThrow(() -> new RuntimeException("Role not found: " + roleName)));
+
+        userRepo.save(user);
+    }
+
+    public boolean isValidTemporaryKey(String key, String role) {
+        return temporaryKeyRepo.findByKeyValue(key)
+                .filter(k -> !k.isExpired() && k.getRole().equalsIgnoreCase(role))
+                .isPresent();
+    }
+
 }

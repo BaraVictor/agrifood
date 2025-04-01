@@ -4,16 +4,21 @@ import com.italy.agrifood.service.TemporaryKeyService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class AdminController {
+
   private final TemporaryKeyService temporaryKeyService;
 
   public AdminController(TemporaryKeyService temporaryKeyService) {
     this.temporaryKeyService = temporaryKeyService;
+  }
+
+  @PreAuthorize("hasAuthority('ADMIN')")
+  @GetMapping("/generate-key")
+  public String showGenerateKeyPage() {
+    return "adminRoleKey"; // Show the form
   }
 
   @PreAuthorize("hasAuthority('ADMIN')")
@@ -27,5 +32,4 @@ public class AdminController {
     }
     return "adminRoleKey";
   }
-
 }
