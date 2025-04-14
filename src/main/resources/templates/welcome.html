@@ -3,7 +3,6 @@
 <head>
     <title>Welcome</title>
     <style>
-        /* General styles and settings */
         body {
             font-family: 'Georgia', serif;
             display: flex;
@@ -17,7 +16,6 @@
             overflow: hidden;
         }
 
-        /* Video background */
         .video-container {
             position: fixed;
             top: 0;
@@ -39,7 +37,6 @@
             filter: brightness(1.2);
         }
 
-        /* Semi-transparent overlay for clarity */
         .overlay {
             position: absolute;
             top: 0;
@@ -51,7 +48,6 @@
             backdrop-filter: blur(3px);
         }
 
-        /* Main content */
         .content {
             position: relative;
             z-index: 2;
@@ -59,7 +55,6 @@
             text-align: center;
         }
 
-        /* Title styling */
         h1 {
             font-size: 4.5em;
             font-weight: bold;
@@ -69,7 +64,6 @@
             text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.6);
         }
 
-        /* Container for buttons */
         .button-container {
             display: flex;
             gap: 20px;
@@ -78,7 +72,6 @@
             margin-top: 40px;
         }
 
-        /* Button styling */
         .button {
             padding: 15px 30px;
             font-size: 1.2em;
@@ -92,13 +85,11 @@
             box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
         }
 
-        /* Hover effect for buttons */
         .button:hover {
             background-color: #ffefc1;
             color: #333;
         }
 
-        /* Role box styling */
         .role-box {
             position: absolute;
             top: 20px;
@@ -113,7 +104,6 @@
             z-index: 2;
         }
 
-        /* Logout button */
         .logout-container {
             position: absolute;
             top: 20px;
@@ -146,7 +136,6 @@
     </script>
 </head>
 <body>
-<!-- Video background -->
 <div class="video-container">
     <video autoplay muted loop id="bg-video">
         <source src="/assets/farmVideo1.mp4" type="video/mp4">
@@ -154,20 +143,16 @@
     </video>
 </div>
 
-<!-- Background overlay -->
 <div class="overlay"></div>
 
-<!-- Role box -->
 <div class="role-box">
     Role: <span th:text="${role}">User</span>
 </div>
 
-<!-- Logout button -->
 <div class="logout-container">
     <button class="button" id="logoutBtn" onclick="logout()">Logout</button>
 </div>
 
-<!-- Main content -->
 <div class="content">
     <h1>Welcome to the Agrifood Business Manager</h1>
     <div class="button-container">
@@ -175,6 +160,11 @@
         <button class="button" onclick="window.location.href='/businesses'">View All Businesses</button>
         <button class="button" onclick="window.location.href='/customers/add'">Add Customer</button>
         <button class="button" onclick="window.location.href='/customers'">View All Customers</button>
+
+        <!-- Admin only button -->
+        <div th:if="${role == 'ADMIN'}">
+            <button class="button" onclick="window.location.href='/generate-key'">Generate Role Key</button>
+        </div>
     </div>
 </div>
 
