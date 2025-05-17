@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Verify Code</title>
+  <title th:text="#{verify.title}">Verify Code</title>
   <style>
     body {
         background-image: url('/assets/farm.jpg');
@@ -66,15 +66,15 @@
 <body>
 
 <div class="verify-code-container">
-  <h1>Verify Your Code</h1>
+  <h1 th:text="#{verify.title}">Verify Your Code</h1>
 
   <form th:action="@{/auth/verify-code}" method="post">
     <input type="hidden" name="email" th:value="${email}" />
 
-    <label for="code">Enter the 6-digit code sent to your email:</label>
+    <label for="code" th:text="#{verify.label}">Enter the 6-digit code sent to your email:</label>
     <input type="text" id="code" name="code" placeholder="e.g. 123456" required />
 
-    <button type="submit">Verify Code</button>
+    <button type="submit" th:text="#{verify.button}">Verify Code</button>
   </form>
 
   <div th:if="${error}" class="error-message" th:text="${error}"></div>

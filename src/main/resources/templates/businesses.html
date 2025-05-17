@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Business List</title>
+    <title th:text="#{business.list.title}">Business List</title>
     <meta charset="UTF-8">
 
     <!-- Bootstrap CSS -->
@@ -29,6 +29,19 @@
             min-height: 100vh;
         }
 
+        /* Language dropdown */
+        .language-switcher {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 3;
+        }
+        .language-switcher select {
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 0.9em;
+        }
+
         /* Main content styling */
         .content {
             position: relative;
@@ -49,7 +62,6 @@
             letter-spacing: 1px;
             transition: transform 0.3s ease;
         }
-
         h1:hover {
             transform: scale(1.1);
         }
@@ -66,18 +78,15 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             min-height: 600px;
         }
-
         thead {
             background-color: rgba(0, 0, 0, 0.8);
             color: #fff;
         }
-
         th, td {
             padding: 12px 15px;
             text-align: center;
             border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         }
-
         tbody tr:hover {
             background-color: rgba(0, 0, 0, 0.05);
         }
@@ -86,7 +95,6 @@
             text-align: center;
             width: 60px;
         }
-
         .icon-button {
             font-size: 1.3em;
             color: #333;
@@ -96,18 +104,11 @@
             outline: none;
             transition: color 0.3s ease, transform 0.2s ease;
         }
-
         .icon-button:hover {
             transform: scale(1.2);
         }
-
-        .update-button:hover {
-            color: #007bff;
-        }
-
-        .delete-button:hover {
-            color: #dc3545;
-        }
+        .update-button:hover { color: #007bff; }
+        .delete-button:hover { color: #dc3545; }
 
         /* Search and Sort Bar */
         .search-sort-container {
@@ -117,13 +118,10 @@
             margin-bottom: 20px;
             gap: 10px;
         }
-
         .form-control, .btn-sort {
             border-radius: 8px;
             font-size: 1em;
         }
-
-        /* Icon reset button styling */
         .reset-icon {
             font-size: 1.3em;
             color: #FFC107;
@@ -134,7 +132,6 @@
             align-items: center;
             justify-content: center;
         }
-
         .reset-icon:hover {
             transform: rotate(360deg);
             color: #FFD700;
@@ -147,16 +144,11 @@
             align-items: center;
             margin-top: 20px;
         }
-
-        .pagination-controls {
-            display: flex;
-        }
-
+        .pagination-controls { display: flex; }
         .pagination .page-item.active .page-link {
             background-color: #007bff;
             color: white;
         }
-
         .return-button {
             padding: 10px 20px;
             font-size: 1em;
@@ -170,126 +162,128 @@
             cursor: pointer;
             transition: background-color 0.3s ease, color 0.3s ease;
         }
-
         .return-button:hover {
             background-color: #000;
             color: #fff;
         }
 
         @media (max-width: 768px) {
-            h1 {
-                font-size: 2.5em;
-            }
-
-            .content {
-                width: 100%;
-                padding: 10px;
-            }
-
-            .search-sort-container {
-                flex-direction: column;
-            }
-
-            .pagination-container {
-                flex-direction: column;
-                align-items: center;
-            }
+            h1 { font-size: 2.5em; }
+            .content { width: 100%; padding: 10px; }
+            .search-sort-container { flex-direction: column; }
+            .pagination-container { flex-direction: column; align-items: center; }
         }
 
         /* Fade animations */
-        .fade-out {
-            animation: fadeOutAnimation 0.5s forwards;
-        }
-
-        .fade-in {
-            animation: fadeInAnimation 0.5s forwards;
-        }
-
-        @keyframes fadeOutAnimation {
-            from { opacity: 1; }
-            to { opacity: 0; }
-        }
-
-        @keyframes fadeInAnimation {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
+        .fade-out { animation: fadeOutAnimation 0.5s forwards; }
+        .fade-in  { animation: fadeInAnimation 0.5s forwards; }
+        @keyframes fadeOutAnimation { from { opacity: 1; } to { opacity: 0; } }
+        @keyframes fadeInAnimation  { from { opacity: 0; } to { opacity: 1; } }
     </style>
 
     <script>
-        // Add fade-in effect on page load
-        document.addEventListener("DOMContentLoaded", function() {
-            document.body.classList.add("fade-in");
-        });
-
-        // Reset search form
+        // Fade-in on load
+        document.addEventListener("DOMContentLoaded", () => document.body.classList.add("fade-in"));
         function resetSearch() {
             window.location.href = '/businesses';
         }
     </script>
-
 </head>
 <body>
 
-<div class="content">
-    <h1>Business List</h1>
+<!-- Language Switcher -->
+<div class="language-switcher">
+    <form th:action="@{/change-language}" method="get">
+        <select name="lang" onchange="this.form.submit()">
+            <option value="en" th:selected="${#locale.language=='en'}">🇬🇧 English</option>
+            <option value="ro" th:selected="${#locale.language=='ro'}">🇷🇴 Română</option>
+        </select>
+    </form>
+</div>
 
-    <!-- Search and Sort Container -->
+<div class="content">
+    <h1 th:text="#{business.list.title}">Business List</h1>
+
     <div class="search-sort-container">
         <!-- Search Bar -->
         <form th:action="@{/businesses/search}" method="get" class="d-flex">
-            <input type="text" name="query" class="form-control" placeholder="Search by name" aria-label="Search" required>
-            <button type="submit" class="btn btn-outline-secondary ms-2">Search</button>
-            <!-- Reset Icon -->
-            <i class="fas fa-sync-alt reset-icon" onclick="resetSearch()" title="Reset Search"></i>
+            <input type="text"
+                   name="query"
+                   class="form-control"
+                   th:placeholder="#{business.search.placeholder}"
+                   aria-label="Search"
+                   required>
+            <button type="submit" class="btn btn-outline-secondary ms-2"
+                    th:text="#{button.search}">Search</button>
+            <i class="fas fa-sync-alt reset-icon"
+               title="Reset"
+               onclick="resetSearch()"></i>
         </form>
 
-        <!-- Sort by Keyword Dropdown -->
+        <!-- Sort Dropdown -->
         <form th:action="@{/businesses/sort}" method="get" class="d-flex">
-            <select name="keyword" class="form-control" onchange="this.form.submit()">
-                <option value="">Tutti</option> <!-- Option to show all businesses -->
-                <!-- Dropdown options populated from keywords list in the backend -->
-                <option th:each="keyword : ${keywords}" th:value="${keyword}" th:text="${keyword}" th:selected="${selectedKeyword == keyword}"></option>
+            <select name="keyword"
+                    class="form-control"
+                    onchange="this.form.submit()">
+                <option value="" th:text="#{business.sort.all}">All</option>
+                <option th:each="kw : ${keywords}"
+                        th:value="${kw}"
+                        th:text="${kw}"
+                        th:selected="${selectedKeyword==kw}">
+                </option>
             </select>
         </form>
     </div>
 
-    <!-- Business Table -->
     <table>
         <thead>
         <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Keyword</th>
-            <th>Facebook Page</th>
-            <th>Update</th>
-            <th>Delete</th>
+            <th th:text="#{business.id}">ID</th>
+            <th th:text="#{business.name}">Name</th>
+            <th th:text="#{business.description}">Description</th>
+            <th th:text="#{business.keyword}">Keyword</th>
+            <th th:text="#{business.page}">Facebook Page</th>
+            <th th:text="#{business.update}">Update</th>
+            <th th:text="#{business.delete}">Delete</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="business : ${businesses}">
-            <td th:text="${business.id}"></td>
+            <td th:text="${business.id}">1</td>
             <td>
-                <a th:href="@{/businesses/{id}/customers(id=${business.id})}" th:text="${business.name}" style="color: #007bff; text-decoration: underline;"></a>
+                <a th:href="@{/businesses/{id}/customers(id=${business.id})}"
+                   th:text="${business.name}"
+                   style="color: #007bff; text-decoration: underline;">
+                </a>
             </td>
-            <td th:text="${business.description}"></td>
-            <td th:text="${business.keyword}"></td>
+            <td th:text="${business.description}">Desc</td>
+            <td th:text="${business.keyword}">Key</td>
             <td>
-                <a th:href="${business.pageLink}" target="_blank" style="color: #333; text-decoration: underline;">
-                    <i class="fas fa-link"></i> Link
+                <a th:href="${business.pageLink}"
+                   target="_blank"
+                   style="color: #333; text-decoration: underline;">
+                    <i class="fas fa-link"></i>
+                    <span th:text="#{business.link}">Link</span>
                 </a>
             </td>
             <td class="action-col">
-                <form th:action="@{/businesses/update/{id}(id=${business.id})}" method="post" style="display: inline;">
-                    <button type="submit" class="icon-button update-button" title="Update">
+                <form th:action="@{/businesses/update/{id}(id=${business.id})}"
+                      method="post"
+                      style="display:inline">
+                    <button type="submit"
+                            class="icon-button update-button"
+                            title="#{business.update}">
                         <i class="fas fa-edit"></i>
                     </button>
                 </form>
             </td>
             <td class="action-col">
-                <form th:action="@{/businesses/delete/{id}(id=${business.id})}" method="post" style="display: inline;">
-                    <button type="submit" class="icon-button delete-button" title="Delete">
+                <form th:action="@{/businesses/delete/{id}(id=${business.id})}"
+                      method="post"
+                      style="display:inline">
+                    <button type="submit"
+                            class="icon-button delete-button"
+                            title="#{business.delete}">
                         <i class="fa-regular fa-trash-can"></i>
                     </button>
                 </form>
@@ -298,31 +292,40 @@
         </tbody>
     </table>
 
-    <!-- Pagination Controls and Return Button in Flex Container -->
     <div class="pagination-container">
-        <a href="/welcome" class="return-button">Return to homepage</a>
-
+        <a th:href="@{/welcome}" class="return-button" th:text="#{button.return}">
+            Return to homepage
+        </a>
         <div class="pagination-controls">
             <ul class="pagination">
-                <!-- Previous Page Link -->
-                <li class="page-item" th:classappend="${businessPage.hasPrevious()} ? '' : 'disabled'">
-                    <a class="page-link" th:href="@{/businesses(page=${businessPage.number - 1}, size=${businessPage.size}, keyword=${selectedKeyword})}">Previous</a>
+                <li class="page-item"
+                    th:classappend="${businessPage.hasPrevious()} ? '' : 'disabled'">
+                    <a class="page-link"
+                       th:href="@{/businesses(page=${businessPage.number-1},size=${businessPage.size},keyword=${selectedKeyword})}"
+                       th:text="#{pagination.previous}">
+                        Previous
+                    </a>
                 </li>
-                <!-- Page Numbers -->
-                <li class="page-item" th:each="i : ${#numbers.sequence(0, businessPage.totalPages - 1)}" th:classappend="${i == businessPage.number} ? 'active'">
-                    <a class="page-link" th:href="@{/businesses(page=${i}, size=${businessPage.size}, keyword=${selectedKeyword})}" th:text="${i + 1}">1</a>
+                <li class="page-item"
+                    th:each="i : ${#numbers.sequence(0,businessPage.totalPages-1)}"
+                    th:classappend="${i==businessPage.number} ? 'active'">
+                    <a class="page-link"
+                       th:href="@{/businesses(page=${i},size=${businessPage.size},keyword=${selectedKeyword})}"
+                       th:text="${i+1}">1</a>
                 </li>
-                <!-- Next Page Link -->
-                <li class="page-item" th:classappend="${businessPage.hasNext()} ? '' : 'disabled'">
-                    <a class="page-link" th:href="@{/businesses(page=${businessPage.number + 1}, size=${businessPage.size}, keyword=${selectedKeyword})}">Next</a>
+                <li class="page-item"
+                    th:classappend="${businessPage.hasNext()} ? '' : 'disabled'">
+                    <a class="page-link"
+                       th:href="@{/businesses(page=${businessPage.number+1},size=${businessPage.size},keyword=${selectedKeyword})}"
+                       th:text="#{pagination.next}">
+                        Next
+                    </a>
                 </li>
             </ul>
         </div>
     </div>
-
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
 </body>
 </html>

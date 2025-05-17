@@ -2,8 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title th:text="#{login.title}">Login</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
@@ -20,7 +19,7 @@
         }
 
         .login-container {
-            background-color: rgba(255, 255, 255, 0.8);
+            background-color: rgba(255, 255, 255, 0.85);
             padding: 3rem;
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
@@ -30,7 +29,7 @@
             animation: fadeIn 0.6s ease-out;
         }
 
-        .login-container h1 {
+        h1 {
             margin-bottom: 1.5rem;
             color: #333;
             font-size: 2.5em;
@@ -38,14 +37,14 @@
             letter-spacing: 0.5px;
         }
 
-        .login-container label {
+        label {
             display: block;
             margin-bottom: 0.5rem;
             font-weight: bold;
             color: #555;
         }
 
-        .login-container input {
+        input {
             width: 100%;
             padding: 12px;
             margin-bottom: 1rem;
@@ -53,29 +52,26 @@
             border-radius: 8px;
             font-size: 16px;
             background-color: #f7f7f7;
-            transition: border-color 0.3s ease;
         }
 
-        .login-container input:focus {
+        input:focus {
             border-color: #2575fc;
             outline: none;
         }
 
-        .login-container button {
+        button {
             background-color: #2575fc;
             color: white;
             border: none;
-            padding: 8px 16px;
+            padding: 10px 20px;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 1rem;
             transition: background-color 0.3s;
-            width: auto;
-            margin: 0 auto;
-            display: block;
+            width: 100%;
         }
 
-        .login-container button:hover {
+        button:hover {
             background-color: #1a60b4;
         }
 
@@ -105,40 +101,35 @@
             0% { opacity: 0; }
             100% { opacity: 1; }
         }
-
-        @media (max-width: 480px) {
-            .login-container {
-                padding: 2rem;
-            }
-        }
     </style>
 </head>
 <body>
 
 <div class="login-container">
-    <h1>Login</h1>
+    <h1 th:text="#{login.title}">Login</h1>
 
     <!-- Error -->
-    <div th:if="${param.error}" class="error-message">
-        Invalid username or password. Please try again.
-    </div>
+    <div th:if="${param.error}" class="error-message" th:text="#{login.error}">Invalid username or password</div>
 
     <form th:action="@{/perform_login}" method="post">
         <div>
-            <label for="email">Email:</label>
+            <label for="email" th:text="#{login.email}">Email</label>
             <input type="text" id="email" name="email" required />
         </div>
         <div>
-            <label for="password">Password:</label>
+            <label for="password" th:text="#{login.password}">Password</label>
             <input type="password" id="password" name="password" required />
         </div>
         <div>
-            <button type="submit"><i class="fas fa-sign-in-alt"></i> Login</button>
+            <button type="submit"><i class="fas fa-sign-in-alt"></i> <span th:text="#{login.button}">Login</span></button>
         </div>
 
         <div class="login-footer">
-            <p><a th:href="@{/forgot-password}">Forgot your password?</a></p>
-            <p>Don't have an account? <a th:href="@{/register}">Register here</a></p>
+            <p><a th:href="@{/forgot-password}" th:text="#{login.forgot}">Forgot your password?</a></p>
+            <p>
+                <span th:text="#{login.noAccount}">Don't have an account?</span>
+                <a th:href="@{/register}" th:text="#{login.registerHere}">Register here</a>
+            </p>
         </div>
     </form>
 </div>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Welcome</title>
+    <title th:text="#{welcome.title}">Welcome</title>
     <style>
         body {
             font-family: 'Georgia', serif;
@@ -109,6 +109,16 @@
             top: 20px;
             right: 20px;
             z-index: 3;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .language-switcher select {
+            padding: 8px;
+            border-radius: 8px;
+            font-size: 0.95em;
+            font-family: Arial, sans-serif;
         }
 
         #logoutBtn {
@@ -136,6 +146,8 @@
     </script>
 </head>
 <body>
+
+<!-- Video Background -->
 <div class="video-container">
     <video autoplay muted loop id="bg-video">
         <source src="/assets/farmVideo1.mp4" type="video/mp4">
@@ -143,36 +155,47 @@
     </video>
 </div>
 
+<!-- Overlay -->
 <div class="overlay"></div>
 
+<!-- Role -->
 <div class="role-box">
-    Role: <span th:text="${role}">User</span>
+    <span th:text="#{role.label} + ': '"></span><span th:text="#{'role.' + ${role}}">User</span>
 </div>
 
+<!-- Top right controls: Language + Logout -->
 <div class="logout-container">
-    <button class="button" id="logoutBtn" onclick="logout()">Logout</button>
+    <form th:action="@{/change-language}" method="get" class="language-switcher" style="margin: 0;">
+        <select name="lang" onchange="this.form.submit()">
+            <option value="en" th:selected="${#locale.language == 'en'}">🇬🇧 English</option>
+            <option value="ro" th:selected="${#locale.language == 'ro'}">🇷🇴 Română</option>
+        </select>
+    </form>
+    <button class="button" id="logoutBtn" onclick="logout()" th:text="#{logout}">Logout</button>
 </div>
 
+<!-- Main Content -->
 <div class="content">
-    <h1>Welcome to the Agrifood Business Manager</h1>
-    <div class="button-container">
-        <button class="button" onclick="window.location.href='/add'">Add Business</button>
-        <button class="button" onclick="window.location.href='/businesses'">View All Businesses</button>
-        <button class="button" onclick="window.location.href='/customers/add'">Add Customer</button>
-        <button class="button" onclick="window.location.href='/customers'">View All Customers</button>
+    <h1 th:text="#{welcome.title}">Welcome to the Agrifood Business Manager</h1>
 
-        <!-- Admin only button -->
+    <div class="button-container">
+        <button class="button" onclick="window.location.href='/add'" th:text="#{button.add}">Add Business</button>
+        <button class="button" onclick="window.location.href='/businesses'" th:text="#{button.viewAll}">View All</button>
+        <button class="button" onclick="window.location.href='/customers/add'" th:text="#{button.addCustomer}">Add Customer</button>
+        <button class="button" onclick="window.location.href='/customers'" th:text="#{button.viewCustomers}">View Customers</button>
+
+        <!-- Admin-only button -->
         <div th:if="${role == 'ADMIN'}">
-            <button class="button" onclick="window.location.href='/generate-key'">Generate Role Key</button>
+            <button class="button" onclick="window.location.href='/generate-key'" th:text="#{button.generateKey}">Generate Key</button>
         </div>
     </div>
 </div>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
         let video = document.getElementById("bg-video");
         video.playbackRate = 0.8;
-        video.addEventListener("ended", function() {
+        video.addEventListener("ended", function () {
             video.style.transition = "opacity 1.5s";
             video.style.opacity = "0";
             setTimeout(() => {
@@ -183,5 +206,6 @@
         });
     });
 </script>
+
 </body>
 </html>

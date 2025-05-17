@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Update Customer</title>
+    <title th:text="#{customer.update.title}">Update Customer</title>
     <meta charset="UTF-8">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" />
@@ -25,6 +25,19 @@
             min-height: 100vh;
             padding: 20px;
             margin: 0;
+        }
+
+        /* Language Switcher */
+        .language-switcher {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 3;
+        }
+        .language-switcher select {
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 0.9em;
         }
 
         /* Form Container */
@@ -125,77 +138,89 @@
 
         /* Responsive Adjustments */
         @media (max-width: 768px) {
-            h1 {
-                font-size: 2em;
-            }
-
-            .form-container {
-                padding: 30px;
-            }
+            h1 { font-size: 2em; }
+            .form-container { padding: 30px; }
         }
 
-        /* Fade animations */
-        .fade-out {
-            animation: fadeOutAnimation 0.5s forwards;
-        }
-
-        .fade-in {
-            animation: fadeInAnimation 0.5s forwards;
-        }
-
-        @keyframes fadeOutAnimation {
-            from { opacity: 1; }
-            to { opacity: 0; }
-        }
-
-        @keyframes fadeInAnimation {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
+        /* Fade Animations */
+        .fade-out { animation: fadeOutAnimation 0.5s forwards; }
+        .fade-in  { animation: fadeInAnimation 0.5s forwards; }
+        @keyframes fadeOutAnimation { from { opacity: 1; } to { opacity: 0; } }
+        @keyframes fadeInAnimation  { from { opacity: 0; } to { opacity: 1; } }
     </style>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             document.body.classList.add("fade-in");
         });
-
         document.querySelectorAll("a").forEach(link => {
             link.addEventListener("click", function(event) {
                 event.preventDefault();
                 document.body.classList.add("fade-out");
-                setTimeout(() => {
-                    window.location.href = this.href;
-                }, 1000);
+                setTimeout(() => window.location.href = this.href, 1000);
             });
         });
     </script>
 </head>
 <body>
 
+<!-- Language Switcher -->
+<div class="language-switcher">
+    <form th:action="@{/change-language}" method="get">
+        <select name="lang" onchange="this.form.submit()">
+            <option value="en" th:selected="${#locale.language=='en'}">🇬🇧 English</option>
+            <option value="ro" th:selected="${#locale.language=='ro'}">🇷🇴 Română</option>
+        </select>
+    </form>
+</div>
+
 <div class="form-container">
-    <h1>Update Customer</h1>
+    <h1 th:text="#{customer.update.title}">Update Customer</h1>
     <form th:action="@{/customers/update/{id}(id=${customer.id})}" method="post">
         <div class="form-group mb-3">
-            <label for="name">Customer Name</label>
-            <input type="text" id="name" name="name" class="form-control" th:value="${customer.name}" required />
+            <label for="name" th:text="#{customer.update.name}">Customer Name</label>
+            <input type="text"
+                   id="name"
+                   name="name"
+                   class="form-control"
+                   th:value="${customer.name}"
+                   required />
         </div>
 
         <div class="form-group mb-3">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" class="form-control" th:value="${customer.email}" required />
+            <label for="email" th:text="#{customer.update.email}">Email</label>
+            <input type="email"
+                   id="email"
+                   name="email"
+                   class="form-control"
+                   th:value="${customer.email}"
+                   required />
         </div>
 
         <div class="form-group mb-3">
-            <label for="phone">Phone Number</label>
-            <input type="tel" id="phone" name="phone" class="form-control" th:value="${customer.phone}" required />
+            <label for="phone" th:text="#{customer.update.phone}">Phone Number</label>
+            <input type="tel"
+                   id="phone"
+                   name="phone"
+                   class="form-control"
+                   th:value="${customer.phone}"
+                   required />
         </div>
 
-        <button type="submit" class="btn-submit">Update Customer</button>
+        <button type="submit"
+                class="btn-submit"
+                th:text="#{customer.update.button}">
+            Update Customer
+        </button>
     </form>
 </div>
 
 <div class="button-container">
-    <a href="/welcome" class="return-button">Return to homepage</a>
+    <a th:href="@{/welcome}"
+       class="return-button"
+       th:text="#{button.return}">
+        Return to homepage
+    </a>
 </div>
 
 </body>

@@ -1,19 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Generate Role Key</title>
+    <title th:text="#{admin.key.title}">Generate Role Key</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 
     <style>
         body {
-            background-image: url('/assets/farm.jpg'); /* Use same background */
+            background-image: url('/assets/farm.jpg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -84,29 +82,28 @@
 <body>
 
 <div class="card">
-    <h1>Generate Role Key</h1>
+    <h1 th:text="#{admin.key.title}">Generate Role Key</h1>
 
     <form th:action="@{/generate-key}" method="post">
         <div class="mb-3">
-            <label for="role">Select Role</label>
+            <label for="role" th:text="#{admin.key.roleLabel}">Select Role</label>
             <select name="role" id="role" class="form-control">
-                <option value="EDITOR">Editor</option>
-                <option value="ADMIN">Admin</option>
+                <option value="EDITOR" th:text="#{role.EDITOR}">Editor</option>
+                <option value="ADMIN" th:text="#{role.ADMIN}">Admin</option>
             </select>
         </div>
 
-        <button type="submit" class="btn btn-primary">Generate Key</button>
+        <button type="submit" class="btn btn-primary" th:text="#{admin.key.button}">Generate Key</button>
     </form>
 
-    <!-- Success Message -->
     <div th:if="${generatedKey}" class="alert alert-success">
-        <strong>Generated Key:</strong> <span th:text="${generatedKey}"></span>
+        <strong th:text="#{admin.key.generated}">Generated Key:</strong>
+        <span th:text="${generatedKey}"></span>
     </div>
 
-    <!-- Error Message -->
     <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
 
-    <a href="/welcome" class="return-link">← Back to Homepage</a>
+    <a href="/welcome" class="return-link" th:text="#{admin.key.back}">← Back to Homepage</a>
 </div>
 
 </body>

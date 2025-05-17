@@ -1,17 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Add Customer</title>
+    <title th:text="#{customer.add.title}">Add Customer</title>
     <meta charset="UTF-8">
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" />
-    <!-- Font Awesome for icons -->
     <link rel="stylesheet" th:href="@{/webjars/font-awesome/6.5.2/css/all.min.css}" />
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@400&display=swap" rel="stylesheet">
 
     <style>
-        /* Background Settings */
         body {
             font-family: 'Roboto', sans-serif;
             background-image: url('/assets/farm.jpg');
@@ -27,20 +23,16 @@
             margin: 0;
         }
 
-        /* Form Container */
         .form-container {
-            background-color: rgba(255, 255, 255, 0.95); /* Slight transparency */
+            background-color: rgba(255, 255, 255, 0.95);
             padding: 50px;
             border-radius: 10px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             max-width: 600px;
             width: 100%;
             text-align: center;
-            position: relative;
-            z-index: 2;
         }
 
-        /* Title Styling */
         h1 {
             font-family: 'Playfair Display', serif;
             font-size: 2.7em;
@@ -52,7 +44,6 @@
             padding-bottom: 10px;
         }
 
-        /* Label and Input Styling */
         .form-group label {
             font-weight: 600;
             color: #333;
@@ -74,7 +65,6 @@
             box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
         }
 
-        /* Submit Button Styling */
         .btn-submit {
             background-color: #000;
             color: #fff;
@@ -92,10 +82,8 @@
         .btn-submit:hover {
             background-color: #333;
             transform: translateY(-2px);
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
         }
 
-        /* Return Button Styling */
         .button-container {
             margin-top: 20px;
             text-align: center;
@@ -120,10 +108,8 @@
         .return-button:hover {
             background-color: #333;
             transform: translateY(-2px);
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
         }
 
-        /* Responsive Adjustments */
         @media (max-width: 768px) {
             h1 {
                 font-size: 2em;
@@ -133,73 +119,34 @@
                 padding: 30px;
             }
         }
-
-        /* Fade animations */
-        .fade-out {
-            animation: fadeOutAnimation 0.5s forwards;
-        }
-
-        .fade-in {
-            animation: fadeInAnimation 0.5s forwards;
-        }
-
-        @keyframes fadeOutAnimation {
-            from { opacity: 1; }
-            to { opacity: 0; }
-        }
-
-        @keyframes fadeInAnimation {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
     </style>
-
-    <script>
-        // Add fade-in effect on page load
-        document.addEventListener("DOMContentLoaded", function() {
-            document.body.classList.add("fade-in");
-        });
-
-        // Add fade-out effect on link click
-        document.querySelectorAll("a").forEach(link => {
-            link.addEventListener("click", function(event) {
-                event.preventDefault();
-                document.body.classList.add("fade-out");
-                setTimeout(() => {
-                    window.location.href = this.href;
-                }, 1000);
-            });
-        });
-    </script>
-
 </head>
 <body>
 
 <div class="form-container">
-    <h1>Add New Customer</h1>
+    <h1 th:text="#{customer.add.title}">Add New Customer</h1>
     <form th:action="@{/customers/add}" method="post">
         <div class="form-group mb-3">
-            <label for="name">Customer Name</label>
+            <label for="name" th:text="#{customer.add.name}">Customer Name</label>
             <input type="text" id="name" name="name" class="form-control" required />
         </div>
 
         <div class="form-group mb-3">
-            <label for="email">Email</label>
+            <label for="email" th:text="#{customer.add.email}">Email</label>
             <input type="email" id="email" name="email" class="form-control" required />
         </div>
 
         <div class="form-group mb-3">
-            <label for="phone">Phone</label>
+            <label for="phone" th:text="#{customer.add.phone}">Phone</label>
             <input type="tel" id="phone" name="phone" class="form-control" pattern="[0-9]{10}" placeholder="1234567890" required />
         </div>
 
-        <button type="submit" class="btn-submit">Add Customer</button>
+        <button type="submit" class="btn-submit" th:text="#{customer.add.button}">Add Customer</button>
     </form>
 </div>
 
-<!-- Return to Homepage Button -->
 <div class="button-container">
-    <a href="/welcome" class="return-button">Return to homepage</a>
+    <a href="/welcome" class="return-button" th:text="#{customer.add.return}">Return to homepage</a>
 </div>
 
 </body>
